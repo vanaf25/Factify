@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useForm} from "react-hook-form";
-
+import './FactSearch.css'
 const FactSearch = () => {
     const { register, handleSubmit } = useForm()
     const [data,setData]=useState(false);
@@ -14,7 +14,7 @@ const FactSearch = () => {
                 <h2>Hi Shafi!</h2>
                 <form onSubmit={handleSubmit(onSubmitHandle)}>
                     <div className="search-bar">
-                        <input type="text" placeholder="Enter your query..."/>
+                        <input {...register("name")} type="text" placeholder="Enter your query..."/>
                         <button type={"submit"}>Check Facts</button>
                     </div>
                 </form>
