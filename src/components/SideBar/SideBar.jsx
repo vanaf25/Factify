@@ -16,9 +16,12 @@ const SideBar = () => {
         <aside  onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave} className="sidebar">
             <div>
-                {isHovered  && <div className="logo">
-                    <span className="logo-Factify">Factify</span><span className="logo-gpt">GPT</span>
-                </div>}
+                {isHovered  && <Link to={"/"}>
+                    <div className="logo">
+                        <span className="logo-Factify">Factify</span><span className="logo-gpt">GPT</span>
+                    </div>
+                </Link>
+                }
                 <Link to={"/"}>
                     <div className="sidebar-item">
                         <i className="fas fa-home"></i>
@@ -33,7 +36,7 @@ const SideBar = () => {
                 </Link>
                 <Link to={"/history"}>
                     <div className="sidebar-item">
-                        <i className="fas fa-cog"></i>
+                        <i className="fas fa-history"></i>
                         <span>History</span>
                     </div>
                 </Link>
