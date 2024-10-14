@@ -5,10 +5,13 @@ import {getFact} from "../../api/facts";
 const FactSearch = () => {
     const { register, handleSubmit } = useForm()
     const [data,setData]=useState(false);
+    const [isLoading,setIsLoading]=useState(false)
     const [title,seTitle]=useState("")
     const onSubmitHandle=async (data)=>{
         console.log('data:',data);
+        setIsLoading(true)
         const resData=await getFact(data.fact)
+        setIsLoading(false)
         setData(resData.summary);
         seTitle(data.fact);
         console.log("d:",resData.summary);
@@ -24,6 +27,7 @@ const FactSearch = () => {
                     </div>
                 </form>
             </div>
+            {isLoading ? <div>Loading...</div>:""}
             {data ? <div className="fact-check-result fade-in" id="fact-check-result">
                 <h3>Fact Check Result:</h3>
                 <div className="result-item">
