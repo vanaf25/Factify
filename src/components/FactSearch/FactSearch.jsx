@@ -32,15 +32,15 @@ const FactSearch = () => {
                 <h3>Fact Check Result:</h3>
                 <div className="result-item">
                 <h4>Claim: {title}</h4>
-                    <p className={`rating ${data.evaluation_metrics.truth_status}`}>
-                        Truthnless:{data.evaluation_metrics.truth_status}</p>
-                    <p className="rating true">Rating: {data.evaluation_metrics.truth_percentage}</p>
-                    <p className="severity high">Severity: {data.evaluation_metrics.severity_level}</p>
-                    <p>Sentence: {data.incident}</p>
+                    <p className={`rating ${data?.evaluation_metrics?.truth_status}`}>
+                        Truthnless:{data?.evaluation_metrics?.truth_status}</p>
+                    <p className="rating true">Rating: {data?.evaluation_metrics?.truth_percentage}</p>
+                    <p className="severity high">Severity: {data?.evaluation_metrics?.severity_level}</p>
+                    <p>Sentence: {data?.incident}</p>
                     <div className="key-facts">
                         <h4>Key Facts:</h4>
                         <ul>
-                            {data.key_points.map(el =><li>{el}</li>)}
+                            {data?.key_points?.map(el =><li>{el}</li>)}
                         </ul>
                     </div>
                 </div>
