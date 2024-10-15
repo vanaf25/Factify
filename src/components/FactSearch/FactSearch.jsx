@@ -12,9 +12,9 @@ const FactSearch = () => {
         setIsLoading(true)
         const resData=await getFact(data.fact)
         setIsLoading(false)
-        setData(resData.summary);
+        setData(resData["FactCheckDetails"]);
         seTitle(data.fact);
-        console.log("d:",resData.summary);
+        console.log("d:",resData["FactCheckDetails"]);
     }
     return (
         <div className="main-content">
@@ -31,20 +31,26 @@ const FactSearch = () => {
             {data ? <div className="fact-check-result fade-in" id="fact-check-result">
                 <h3>Fact Check Result:</h3>
                 <div className="result-item">
-                <h4>Claim: {title}</h4>
-                    <p className={`rating ${data?.evaluation_metrics?.truth_status}`}>
-                        Truthnless:{data?.evaluation_metrics?.truth_status}</p>
-                    <p className="rating true">Rating: {data?.evaluation_metrics?.truth_percentage}</p>
-                    <p className="severity high">Severity: {data?.evaluation_metrics?.severity_level}</p>
-                    <p>Sentence: {data?.incident}</p>
+                    <h4>Claim: {title}</h4>
+                    <p className={`rating ${data.Rating}`}>
+                        Truth status:{data.Rating}</p>
+                    <p className="severity high">Severity: {data.Severity}</p>
+                    <p>Explanation: {data.Explanation}</p>
                     <div className="key-facts">
                         <h4>Key Facts:</h4>
                         <ul>
-                            {data?.key_points?.map(el =><li>{el}</li>)}
+                            {data?.keyFacts?.map(el => <li>{el}</li>)}
                         </ul>
                     </div>
+                    <ul>
+                        {data.References?.map((el,index)=>{
+                            return <li  key={index}>
+                                <a className={"text-primary"} target={"_blank"}  rel='noopener noreferrer' href={el?.url}>{el?.title}</a>
+                            </li>
+                        })}
+                    </ul>
                 </div>
-            </div>:""}
+            </div> : ""}
         </div>
     );
 };

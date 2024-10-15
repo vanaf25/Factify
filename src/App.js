@@ -13,16 +13,20 @@ import SignIn from "./pages/SignIn/SignIn";
 import SignUp from "./pages/SignUp/SignUp";
 import ManageUsers from "./pages/Dashboard/ManageUsers/ManageUsers";
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
+import {useEffect} from "react";
+import {verifyJwt} from "./api/auth";
+import PrivateRoute from "./featured/PrivateRoute/PrivateRoute";
 function App() {
     const {pathname}=useLocation()
     console.log('location:',pathname);
+
   return (
       <div>
           <div className="dashboard">
               {pathname.includes("dashboard") ?  <AdminDashboard/> : <SideBar/>}
               <div className={`${pathname.includes("dashboard") ? "pl-[100px]":""} w-full ` }>
                   <Routes>
-                      <Route path="/" element={ <FactSearch/> } />
+                          <Route path="/" element={<FactSearch/>} />
                       <Route path="/dashboard/LTD" element={ <GenerateLTDCode/> } />
                       <Route path="/dashboard/GenerateCouponCode" element={ <GenerateCouponCode/> } />
                       <Route path="/dashboard/settings" element={ <DashboardSettings/> } />
