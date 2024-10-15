@@ -1,8 +1,9 @@
 import instance from "./api";
 
-export const getFact=async (fact)=>{
+export const getHistory=async (body)=>{
     try {
-        const response = await instance.post('fact',{fact},{
+        console.log(body);
+        const response = await instance.get('user/history',{
             headers:{
                 Authorization:`Bearer ${localStorage.getItem("token")}`
             }

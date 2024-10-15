@@ -26,15 +26,14 @@ function App() {
               {pathname.includes("dashboard") ?  <AdminDashboard/> : <SideBar/>}
               <div className={`${pathname.includes("dashboard") ? "pl-[100px]":""} w-full ` }>
                   <Routes>
-                          <Route path="/" element={<FactSearch/>} />
+                      <Route path="/" element={<PrivateRoute><FactSearch/></PrivateRoute>} />
                       <Route path="/dashboard/LTD" element={ <GenerateLTDCode/> } />
                       <Route path="/dashboard/GenerateCouponCode" element={ <GenerateCouponCode/> } />
-                      <Route path="/dashboard/settings" element={ <DashboardSettings/> } />
+                      <Route path="/dashboard/settings" element={<DashboardSettings/> } />
                       <Route path="/dashboard/manageUsers" element={ <ManageUsers/> } />
-                      <Route path="/history" element={ <History/> } />
-                      <Route path="/favorites" element={ <FavoriteFact/> } />
-                      <Route path={"/upgrade"} element={<UpgradePlan/>}/>
-                      <Route path={"/settings"} element={<Settings/>}/>
+                      <Route path="/favorites" element={<PrivateRoute><FavoriteFact/></PrivateRoute> } />
+                      <Route path={"/upgrade"} element={<PrivateRoute><UpgradePlan/></PrivateRoute>}/>
+                      <Route path={"/settings"} element={<PrivateRoute><Settings/></PrivateRoute>}/>
                       <Route path={"/signIn"} element={<SignIn/>}/>
                       <Route path={"/signUp"} element={<SignUp/>}/>
                   </Routes>

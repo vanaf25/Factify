@@ -34,12 +34,6 @@ const SideBar = () => {
                         <span>Favorites</span>
                     </div>
                 </Link>
-                <Link to={"/history"}>
-                    <div className="sidebar-item">
-                        <i className="fas fa-history"></i>
-                        <span>History</span>
-                    </div>
-                </Link>
                 <Link to={"/settings"}>
                     <div className="sidebar-item">
                         <i className="fas fa-cog"></i>

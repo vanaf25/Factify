@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Form from "../../components/Form/Form";
+import {register} from "../../api/auth";
+import {useNavigate} from "react-router-dom";
 
 const SignUp = () => {
     const userFormFields = [
@@ -32,11 +34,24 @@ const SignUp = () => {
             validation: { required: "Confirm Password is required" },
         },
     ];
-    const onSubmit=(data)=>{
+    const navigate=useNavigate();
+    const [error,setError]=useState()
+    const [isLoading,setIsLoading]=useState(false);
+    const onSubmit=async (data)=>{
         console.log('data:',data);
+        setIsLoading(true);
+        const res=await register({name:data.username,password:data.password,email:data.email})
+        if (res.id){
+            navigate("/signIn");
+        }
+        if (res.code==="ERR_BAD_REQUEST"){
+            setError(res.response.data.message)
+        }
+        setIsLoading(false)
+        console.log('u:',res);
     }
     return (
-        <Form fields={userFormFields}
+        <Form globalError={error} isLoading={isLoading}  fields={userFormFields}
               onSubmit={onSubmit}
               submitButtonText={"Sign Up"}
               additionalLinks={[{href:"/signIn",text:"Already have an account? Login here"}]}

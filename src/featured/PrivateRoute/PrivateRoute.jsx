@@ -20,6 +20,7 @@ const PrivateRoute = ({children}) => {
                     setUser(null)
                 }
             }
+            else navigate("/signIn")
         }
         asyncFunc();
     }, []);

@@ -3,12 +3,12 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import {Link} from "react-router-dom";
 
-const ReusableForm = ({ title, fields, onSubmit, submitButtonText = 'Submit',additionalLinks=[] }) => {
+const ReusableForm = ({ title, fields, onSubmit,globalError,isLoading, submitButtonText = 'Submit',additionalLinks=[] }) => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
     const handleFormSubmit = (data) => {
         onSubmit(data);
-        reset(); // Optionally reset the form after submission
+        // Optionally reset the form after submission
     };
 
     return (
@@ -31,8 +31,13 @@ const ReusableForm = ({ title, fields, onSubmit, submitButtonText = 'Submit',add
                             aria-label={field.label}
                             {...register(field.name, field.validation)}
                             className={`w-full px-4 py-2 border ${
-                                errors[field.name] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-                            } rounded focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white`}
+                                errors[field.name] || globalError   ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                            } rounded focus:outline-none focus:ring-2
+                            ${
+                                errors[field.name] || globalError   ?
+                                    'focus:ring-' : 'focus:ring-primary'
+                            }
+                              dark:bg-gray-700 dark:text-white`}
                         />
                         {errors[field.name] && (
                             <p className="text-red-500 text-sm mt-1">{errors[field.name].message}</p>
@@ -43,10 +48,15 @@ const ReusableForm = ({ title, fields, onSubmit, submitButtonText = 'Submit',add
                 <button
                     type="submit"
                     aria-label={submitButtonText}
-                    className="w-full bg-primary dark:bg-primary text-white py-2 mb-2 rounded hover:bg-secondary dark:hover:bg-secondary transition-colors duration-300 font-semibold"
+                    disabled={isLoading}
+                    className={` w-full bg-primary
+                     dark:bg-primary text-white
+                      py-2 mb-2 rounded hover:bg-secondary dark:hover:bg-secondary transition-colors 
+                      duration-300 font-semibold`}
                 >
-                    {submitButtonText}
+                    {isLoading ? "Submitting...":submitButtonText}
                 </button>
+                {globalError ? <p className={"text-[red]"}>{globalError}</p>:""}
                 {additionalLinks.map(el=><div className={"text-primary text-center hover:text-secondary mb-[5px]"}>
                     <Link to={el.href} >{el.text}</Link>
                 </div>)}

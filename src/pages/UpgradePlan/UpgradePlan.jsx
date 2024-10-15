@@ -43,7 +43,7 @@ const UpgradePlan = () => {
             },
         },
     ];
-
+        const [isCheckBoxChecked,setIsCheckboxChecked]=useState(false);
     return (
         <main className="main-content min-h-screen bg-gray-100 flex flex-col items-center p-6">
             {/* Header */}
@@ -65,7 +65,9 @@ const UpgradePlan = () => {
             <div className="toggle-container">
                 <span className="toggle-label">Monthly</span>
                 <label className="toggle-switch">
-                    <input type="checkbox" id="toggleButton"/>
+                    <input checked={isCheckBoxChecked}
+                           onChange={()=>setIsCheckboxChecked(prevState =>!prevState )}
+                           type="checkbox" id="toggleButton"/>
                     <span className="slider"></span>
                 </label>
                 <span className="toggle-label">Yearly</span>
@@ -78,7 +80,7 @@ const UpgradePlan = () => {
                     {/* Starter Plan */}
                     <div className="plan border border-white rounded-lg p-6 flex flex-col">
                         <h3 className="text-2xl font-semibold text-[#FFA500] mb-4">Starter Plan</h3>
-                        <div className="option-price text-3xl font-bold text-white mb-4">$1</div>
+                        <div className="option-price text-3xl font-bold text-white mb-4">$1{isCheckBoxChecked ? 0 :""}</div>
                         <ul className="text-white mb-6 flex-grow">
                             <li className="mb-2">10 Credits</li>
                             <li className="mb-2">5 Checks Per Minute</li>
@@ -99,7 +101,7 @@ const UpgradePlan = () => {
                     {/* Pro Plan */}
                     <div className="plan border border-white rounded-lg p-6 flex flex-col">
                         <h3 className="text-2xl font-semibold text-[#FFA500] mb-4">Pro Plan</h3>
-                        <div className="option-price text-3xl font-bold text-white mb-4">$8</div>
+                        <div className="option-price text-3xl font-bold text-white mb-4">$8{isCheckBoxChecked ? 0 :""}</div>
                         <ul className="text-white mb-6 flex-grow">
                             <li className="mb-2">100 Credits</li>
                             <li className="mb-2">5 Checks Per Minute</li>
@@ -120,7 +122,7 @@ const UpgradePlan = () => {
                     {/* Business Plan */}
                     <div className="plan border border-white rounded-lg p-6 flex flex-col">
                         <h3 className="text-2xl font-semibold text-[#FFA500] mb-4">Business Plan</h3>
-                        <div className="option-price text-3xl font-bold text-white mb-4">$15</div>
+                        <div className="option-price text-3xl font-bold text-white mb-4">$15{isCheckBoxChecked ? 0 :""}</div>
                         <ul className="text-white mb-6 flex-grow">
                             <li className="mb-2">500 Credits</li>
                             <li className="mb-2">5 Checks Per Minute</li>
