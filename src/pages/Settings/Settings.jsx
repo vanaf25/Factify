@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import {changePassword, getUserDetails} from "../../api/user";
+import Form from "../../components/Form/Form";
 
 const UserForm = () => {
     // State to manage popup visibility
@@ -12,22 +14,31 @@ const UserForm = () => {
         formState: { errors },
         reset: resetMainForm,
     } = useForm();
-
-    const onSubmit = (data) => {
+        const [serverError,setServerError]=useState("")
+    const onSubmit =async (data) => {
         console.log('Main Form Data:', data);
+        setIsSubmitting(true)
+        const res= await changePassword({newPassword:data.newPassword,currentPassword:data.currentPassword})
+        if (res.code==="ERR_BAD_REQUEST"){
+            setServerError(res.response.data.message)
+        }
+        else{
+            alert("Password changed !")
+        }
+        setIsSubmitting(false);
         resetMainForm();
     };
-
-    // Popup form handling
-    const {
+        const {
         register: registerPopup,
         handleSubmit: handleSubmitPopup,
         formState: { errors: popupErrors },
+        setValue,
         reset: resetPopupForm,
     } = useForm();
-
-    const onSubmitPopup = (data) => {
+        const [isSubmitting,setIsSubmitting]=useState(false)
+    const onSubmitPopup =async (data) => {
         console.log('Popup Form Data:', data);
+
         resetPopupForm();
         setIsPopupOpen(false); // Close popup after submission
     };
@@ -47,22 +58,14 @@ const UserForm = () => {
         {
             name: 'userName',
             label: 'Username',
-            disabled:true,
+            disabled: true,
             type: 'text',
-            validation: { required: 'Username is required' },
         },
         {
             name: 'email',
             label: 'Email',
-            disabled:true,
+            disabled: true,
             type: 'email',
-            validation: {
-                required: 'Email is required',
-                pattern: {
-                    value: /^\S+@\S+$/i,
-                    message: 'Invalid email address',
-                },
-            },
         },
         {
             name: 'currentPassword',
@@ -78,11 +81,24 @@ const UserForm = () => {
         },
     ];
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await getUserDetails();
+            console.log('res:', res);
+            if (res.id) {
+                setValue('userName', res.name);
+                setValue('email', res.email);
+
+            }
+        };
+        fetchData();
+    }, [setValue]);
+
     return (
-        <div className="main-content   min-h-screen bg-gray-100">
+        <div className="main-content min-h-screen bg-gray-100">
             {/* Main Form */}
-            <div className={"flex justify-between"}>
-                <h2 className={"text-[#6C63FF]"}>Settings</h2>
+            <div className="flex justify-between">
+                <h2 className="text-[#6C63FF]">Settings</h2>
                 <div>
                     <button
                         type="button"
@@ -93,50 +109,8 @@ const UserForm = () => {
                     </button>
                 </div>
             </div>
-            <div className={"flex justify-center"}>
-                <form
-                    onSubmit={handleSubmit(onSubmit)}
-                    className="w-[500px] bg-[#2C3E50] border border-gray-700 p-8 rounded-lg"
-                >
-                    <h2 className="text-2xl text-white mb-6 text-center">User Form</h2>
-
-                    {/* Render input fields using map */}
-                    {fields.map((field) => (
-                        <div className="mb-4" key={field.name}>
-                            <label className="block text-white mb-2" htmlFor={field.name}>
-                                {field.label}
-                            </label>
-                            <input
-                                disabled={field.disabled}
-                                id={field.name}
-                                type={field.type}
-                                {...register(field.name, field.validation)}
-                                className={`w-full p-2 text-black rounded  border ${
-                                    errors[field.name] ? 'border-red-500' : 'border-gray-400'
-                                }  text-gray-200 disabled:cursor-not-allowed
-                                 disabled:bg-slate-50 disabled:text-slate-500
-                                  disabled:border-slate-200 disabled:shadow-none `}
-                                placeholder={`Enter your ${field.label.toLowerCase()}`}
-                            />
-                            {errors[field.name] && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    {errors[field.name].message}
-                                </p>
-                            )}
-                        </div>
-                    ))}
-
-                    {/* Buttons Container */}
-                    <div className="flex justify-between items-center">
-                        {/* Submit Button */}
-                        <button
-                            type="submit"
-                            className=" p-3 bg-[#D95D30] text-white rounded hover:bg-[#e0633a] transition-colors"
-                        >
-                            Submit
-                        </button>
-                    </div>
-                </form>
+            <div className="flex justify-center">
+                <Form globalError={serverError} fields={fields} title={"Settings"} onSubmit={onSubmit}/>
             </div>
 
             {/* Popup Modal */}
@@ -177,9 +151,9 @@ const UserForm = () => {
                                         id="popupField"
                                         type="text"
                                         {...registerPopup('popupField', { required: 'This field is required' })}
-                                        className={`w-full p-2 text-black rounded  border ${
+                                        className={`w-full p-2 text-black rounded border ${
                                             popupErrors.popupField ? 'border-red-500' : 'border-gray-400'
-                                        }  text-gray-200`}
+                                        } text-gray-200`}
                                         placeholder="Enter popup information"
                                     />
                                     {popupErrors.popupField && (

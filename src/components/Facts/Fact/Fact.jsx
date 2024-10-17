@@ -1,8 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {addToFavorite, removeFromFavorite} from "../../../api/user";
-import {FaShareAlt, FaStar} from "react-icons/fa";
+import {FaStar} from "react-icons/fa";
+import { FaRegTrashAlt } from "react-icons/fa";
+import {removeFact} from "../../../api/facts";
 
-const Fact = ({fact,setCurrentFact}) => {
+const Fact = ({fact,setCurrentFact,onDeleteFact}) => {
     const getStatusColor = (status) => {
         switch(status) {
             case 'true':
@@ -18,8 +20,13 @@ const Fact = ({fact,setCurrentFact}) => {
         }
     };
     const [isFavorite,setIsFavorite]=useState(fact.isFavorite);
+    useEffect(() => {
+        console.log('fact:',isFavorite);
+    }, [isFavorite]);
     const [isLoading,setIsLoading]=useState(false)
+    const [isDeleting,setIsDeleting]=useState(false);
     const toggleFavoriteHandle=async (fact)=>{
+        console.log('toggle!');
         if (!fact.isFavorite){
             setIsLoading(true)
             await addToFavorite(fact._id)
@@ -33,6 +40,18 @@ const Fact = ({fact,setCurrentFact}) => {
             setIsLoading(false)
         }
     }
+    useEffect(() => {
+        return ()=>console.log("Component deleted!");
+    }, []);
+    const removeFactHandle=async (factId)=>{
+        setIsDeleting(true)
+        console.log('factId:',factId);
+       const res=await removeFact(factId);
+       if (res.message==="Fact successfully deleted"){
+           onDeleteFact(factId);
+       }
+               setIsDeleting(false);
+    }
     return (
         <div
             className="bg-cardBg p-6  rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col justify-between"
@@ -41,18 +60,28 @@ const Fact = ({fact,setCurrentFact}) => {
                  onClick={setCurrentFact ? () => setCurrentFact(fact) : undefined}
             >
                 <h3 className="text-lg font-bold text-primary mb-2">{fact.title}</h3>
+                <p>{fact._id}</p>
                 <span className={`font-bold uppercase text-sm ${String(getStatusColor(fact.truthStatus))}`}>
                 {String(fact.truthStatus).replace('-', ' ')}
               </span>
             </div>
             <div className="flex justify-between mt-4">
                 <button disabled={isLoading} onClick={() => toggleFavoriteHandle(fact)}
-                        className={`${isFavorite ? "text-primary" : "text-upgrade"}  hover:text-primary transition-colors duration-300`}>
+                        className={`${isFavorite ? "text-primary" : "text-upgrade"}
+                          hover:text-primary transition-colors duration-300`}>
                     <FaStar/>
                 </button>
-                <button className="text-gray-500 hover:text-primary transition-colors duration-300">
-                    <FaShareAlt/>
-                </button>
+                <div className={"flex"}>
+                    <button
+                        disabled={isDeleting}
+                        onClick={() => removeFactHandle(fact._id)}
+                        className={`px-4 py-2 text-gray-700 rounded-lg transition-all duration-300
+    hover:bg-gray-100  font-semibold text-sm flex items-center justify-center
+    ${isDeleting ? 'cursor-not-allowed' : ''}`}>
+                        <FaRegTrashAlt/>
+                    </button>
+                </div>
+
             </div>
         </div>
     );

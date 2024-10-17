@@ -3,14 +3,20 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import {Link} from "react-router-dom";
 
-const ReusableForm = ({ title, fields, onSubmit,globalError,isLoading, submitButtonText = 'Submit',additionalLinks=[] }) => {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+const ReusableForm = ({ title, fields, onSubmit,
+                          globalError,isLoading,
+                          submitButtonText = 'Submit',additionalLinks=[],resetForm }) => {
+    const { register, handleSubmit
+        , formState: { errors }, reset } = useForm();
 
     const handleFormSubmit = (data) => {
-        onSubmit(data);
+        onSubmit(data)
+        if (resetForm){
+            reset()
+        }
         // Optionally reset the form after submission
     };
-
+    console.log('f:',fields);
     return (
         <div className="flex main-content justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
             <form
@@ -19,22 +25,23 @@ const ReusableForm = ({ title, fields, onSubmit,globalError,isLoading, submitBut
             >
                 <h2 className="text-2xl font-bold text-primary dark:text-primary mb-6 text-center">{title}</h2>
 
-                {fields.map((field, index) => (
+                {fields?.map((field, index) => (
                     <div className="mb-6" key={index}>
                         <label htmlFor={field.name} className="block text-gray-700 dark:text-gray-200 mb-2">
                             {field.label}
                         </label>
                         <input
+                            disabled={field.disabled}
                             type={field.type}
                             id={field.name}
                             placeholder={field.placeholder}
                             aria-label={field.label}
                             {...register(field.name, field.validation)}
                             className={`w-full px-4 py-2 border ${
-                                errors[field.name] || globalError   ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                               !field.disabled && ( errors[field.name] || globalError)   ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                             } rounded focus:outline-none focus:ring-2
                             ${
-                                errors[field.name] || globalError   ?
+                             !field.disabled && (   errors[field.name] || globalError)   ?
                                     'focus:ring-' : 'focus:ring-primary'
                             }
                               dark:bg-gray-700 dark:text-white`}
