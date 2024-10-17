@@ -60,7 +60,6 @@ const Fact = ({fact,setCurrentFact,onDeleteFact}) => {
                  onClick={setCurrentFact ? () => setCurrentFact(fact) : undefined}
             >
                 <h3 className="text-lg font-bold text-primary mb-2">{fact.title}</h3>
-                <p>{fact._id}</p>
                 <span className={`font-bold uppercase text-sm ${String(getStatusColor(fact.truthStatus))}`}>
                 {String(fact.truthStatus).replace('-', ' ')}
               </span>
