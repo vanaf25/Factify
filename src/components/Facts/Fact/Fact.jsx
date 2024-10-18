@@ -4,7 +4,7 @@ import {FaStar} from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 import {removeFact} from "../../../api/facts";
 
-const Fact = ({fact,setCurrentFact,onDeleteFact,isHistory}) => {
+const Fact = ({fact,setCurrentFact,onDeleteFact,isHistory,isFirst}) => {
     const getStatusColor = (status) => {
         switch(status) {
             case 'true':
@@ -54,7 +54,7 @@ const Fact = ({fact,setCurrentFact,onDeleteFact,isHistory}) => {
     }
     return (
         <div
-            className="bg-cardBg p-6  rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col justify-between"
+            className={`${isFirst ? "border-2 border-solid border-primary shadow-lg ":"shadow-md"}  bg-cardBg p-6  rounded-lg  hover:shadow-lg transition-shadow duration-300 flex flex-col justify-between`}
         >
             <div className={"cursor-pointer"}
                  onClick={setCurrentFact ? () => setCurrentFact(fact) : undefined}
