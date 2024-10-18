@@ -8,13 +8,9 @@ const UserForm = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     // Main form handling
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        reset: resetMainForm,
-    } = useForm();
+
         const [serverError,setServerError]=useState("")
+    const [isSubmitting,setIsSubmitting]=useState(false)
     const onSubmit =async (data) => {
         console.log('Main Form Data:', data);
         setIsSubmitting(true)
@@ -24,9 +20,9 @@ const UserForm = () => {
         }
         else{
             alert("Password changed !")
+            setServerError("");
         }
         setIsSubmitting(false);
-        resetMainForm();
     };
         const {
         register: registerPopup,
@@ -35,7 +31,6 @@ const UserForm = () => {
         setValue,
         reset: resetPopupForm,
     } = useForm();
-        const [isSubmitting,setIsSubmitting]=useState(false)
     const onSubmitPopup =async (data) => {
         console.log('Popup Form Data:', data);
 
@@ -110,7 +105,8 @@ const UserForm = () => {
                 </div>
             </div>
             <div className="flex justify-center">
-                <Form globalError={serverError} fields={fields} title={"Settings"} onSubmit={onSubmit}/>
+                <Form globalError={serverError}  isLoading={isSubmitting}
+                      resetForm fields={fields} title={"Settings"} onSubmit={onSubmit}/>
             </div>
 
             {/* Popup Modal */}

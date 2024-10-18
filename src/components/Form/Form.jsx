@@ -9,14 +9,14 @@ const ReusableForm = ({ title, fields, onSubmit,
     const { register, handleSubmit
         , formState: { errors }, reset } = useForm();
 
-    const handleFormSubmit = (data) => {
-        onSubmit(data)
+    const handleFormSubmit = async (data) => {
+       await onSubmit(data)
         if (resetForm){
             reset()
         }
         // Optionally reset the form after submission
     };
-    console.log('f:',fields);
+    console.log('f:',isLoading);
     return (
         <div className="flex main-content justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
             <form
