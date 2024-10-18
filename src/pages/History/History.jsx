@@ -5,7 +5,10 @@ const History = ({setCurrentFact,histories,onDeleteFact}) => {
     return (
             <>
                     <h3>Recent History</h3>
-                {histories.length ? <Facts onDeleteFact={onDeleteFact} setCurrentFact={setCurrentFact} facts={histories}/>:"No history yet"}
+                {histories.length ? <Facts
+                    isHistory
+                    onDeleteFact={onDeleteFact}
+                    setCurrentFact={setCurrentFact} facts={histories}/>:"No history yet"}
                 <div className="details-view" id="detailsView">
                     <div className="details-content">
                         <button className="close-btn" onClick="closeDetails()">&times;</button>

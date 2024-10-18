@@ -4,7 +4,7 @@ import {FaStar} from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 import {removeFact} from "../../../api/facts";
 
-const Fact = ({fact,setCurrentFact,onDeleteFact}) => {
+const Fact = ({fact,setCurrentFact,onDeleteFact,isHistory}) => {
     const getStatusColor = (status) => {
         switch(status) {
             case 'true':
@@ -71,14 +71,14 @@ const Fact = ({fact,setCurrentFact,onDeleteFact}) => {
                     <FaStar/>
                 </button>
                 <div className={"flex"}>
-                    <button
+                    {isHistory ?  <button
                         disabled={isDeleting}
                         onClick={() => removeFactHandle(fact._id)}
                         className={`px-4 py-2 text-gray-700 rounded-lg transition-all duration-300
     hover:bg-gray-100  font-semibold text-sm flex items-center justify-center
     ${isDeleting ? 'cursor-not-allowed' : ''}`}>
                         <FaRegTrashAlt/>
-                    </button>
+                    </button>:""}
                 </div>
 
             </div>
