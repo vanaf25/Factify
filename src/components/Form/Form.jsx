@@ -18,7 +18,7 @@ const ReusableForm = ({ title, fields, onSubmit,
     };
     console.log('f:',isLoading);
     return (
-        <div className="flex  justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
+        <div className="flex w-full  justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900">
             <form
                 onSubmit={handleSubmit(handleFormSubmit)}
                 className="bg-white dark:bg-gray-800 rounded-card shadow-card p-8 w-full max-w-md"

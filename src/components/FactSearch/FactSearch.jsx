@@ -38,7 +38,7 @@ const FactSearch = () => {
     }, []);
     const onDeleteFact=(factId)=>setHistories(prevState =>prevState.filter(el=>el._id!==factId));
     return (
-        <div className="main-content">
+        <div>
             <div className="bg-[var(--card-bg)] p-8 rounded-[20px] shadow-lg mb-8">
                 <h2>Hi Shafi!</h2>
                 <form className={"w-full"} onSubmit={handleSubmit(onSubmitHandle)}>

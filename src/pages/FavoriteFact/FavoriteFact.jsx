@@ -21,11 +21,11 @@ const FavoriteFact = () => {
     }, []);
     const [currentFact,setCurrentFact]=useState();
     return (
-        <main className="flex-1 p-8 overflow-y-auto ml-16 bg-bg">
+        <div className="flex-1  overflow-y-auto  bg-bg">
             <h2 className="text-2xl text-primary mb-6">Favorite Facts</h2>
             <CurrentFact data={currentFact}/>
             {isLoading ? <FactSceleton/>:facts.length ?  <Facts setCurrentFact={(fact)=>setCurrentFact(fact)} facts={facts}/>:"No favorite facts"}
-        </main>
+        </div>
     );
 };
 

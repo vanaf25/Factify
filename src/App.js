@@ -21,10 +21,10 @@ function App() {
     console.log('location:',pathname);
 
   return (
-      <div>
+      <>
           <div className="dashboard">
               {pathname.includes("dashboard") ?  <AdminDashboard/> : <SideBar/>}
-              <div className={`${pathname.includes("dashboard") ? "pl-[100px]":""} w-full ` }>
+              <div className={`${pathname.includes("dashboard") ? "pl-[100px]":"main-content"} w-full ` }>
                   <Routes>
                       <Route path="/" element={<PrivateRoute><FactSearch/></PrivateRoute>} />
                       <Route path="/dashboard/LTD" element={ <GenerateLTDCode/> } />
@@ -39,7 +39,7 @@ function App() {
                   </Routes>
               </div>
           </div>
-      </div>
+      </>
   );
 }
 

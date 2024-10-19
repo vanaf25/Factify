@@ -90,7 +90,7 @@ const UserForm = () => {
     }, [setValue]);
 
     return (
-        <div className="main-content min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-gray-100">
             {/* Main Form */}
             <div className="flex flex-wrap justify-between">
                 <h2 className="text-[#6C63FF]">Settings</h2>
@@ -104,7 +104,7 @@ const UserForm = () => {
                     </button>
                 </div>
             </div>
-            <div className="flex justify-center">
+            <div className="flex w-full justify-center">
                 <Form globalError={serverError}  isLoading={isSubmitting}
                       resetForm fields={fields} title={"Settings"} onSubmit={onSubmit}/>
             </div>
@@ -114,7 +114,7 @@ const UserForm = () => {
                 <>
                     {/* Overlay */}
                     <div
-                        className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+                        className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-400"
                         onClick={handleOverlayClick} // Close popup on clicking overlay
                         aria-labelledby="popup-title"
                         role="dialog"
@@ -123,7 +123,7 @@ const UserForm = () => {
 
                     {/* Modal Content */}
                     <div
-                        className="fixed inset-0 flex justify-center items-center z-50"
+                        className="fixed inset-0 flex justify-center items-center z-5000"
                         onClick={handleOverlayClick} // Close popup on clicking overlay
                     >
                         <div

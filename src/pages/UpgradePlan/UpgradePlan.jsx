@@ -45,7 +45,7 @@ const UpgradePlan = () => {
     ];
         const [isCheckBoxChecked,setIsCheckboxChecked]=useState(false);
     return (
-        <main className="main-content min-h-screen bg-gray-100 flex flex-col items-center p-6">
+        <main className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
             {/* Header */}
             <div className="w-full max-w-4xl flex justify-between items-center mb-8">
                 <h2 className="text-3xl font-semibold text-[#FFA500]">Upgrade Your Plan</h2>
