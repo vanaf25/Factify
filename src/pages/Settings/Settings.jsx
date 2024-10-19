@@ -92,7 +92,7 @@ const UserForm = () => {
     return (
         <div className="main-content min-h-screen bg-gray-100">
             {/* Main Form */}
-            <div className="flex justify-between">
+            <div className="flex flex-wrap justify-between">
                 <h2 className="text-[#6C63FF]">Settings</h2>
                 <div>
                     <button

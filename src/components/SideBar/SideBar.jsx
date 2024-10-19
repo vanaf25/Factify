@@ -13,7 +13,9 @@ const SideBar = () => {
     const path=useLocation()
     console.log('p:',path);
     return (
-        <aside  onMouseEnter={handleMouseEnter}
+        <aside
+            
+            onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave} className="sidebar">
             <div>
                 {isHovered  && <Link to={"/"}>

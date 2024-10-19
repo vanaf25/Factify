@@ -29,9 +29,3 @@ body {
     display: flex;
     min-height: 100vh;
 }
-.main-content {
-    flex-grow: 1;
-    padding: 2rem;
-    overflow-y: auto;
-    margin-left: 70px;
-}

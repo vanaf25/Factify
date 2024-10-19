@@ -1,5 +1,4 @@
 import React from 'react';
-import "./History.css"
 import Facts from "../../components/Facts/Facts";
 const History = ({setCurrentFact,histories,onDeleteFact}) => {
     return (
