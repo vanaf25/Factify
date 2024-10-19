@@ -9,13 +9,6 @@ const History = ({setCurrentFact,histories,onDeleteFact}) => {
                     isHistory
                     onDeleteFact={onDeleteFact}
                     setCurrentFact={setCurrentFact} facts={histories}/>:"No history yet"}
-                <div className="details-view" id="detailsView">
-                    <div className="details-content">
-                        <button className="close-btn" onClick="closeDetails()">&times;</button>
-                        <h3 id="factTitle"></h3>
-                        <p id="factDetails"></p>
-                    </div>
-                </div>
             </>
     );
 };

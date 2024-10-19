@@ -117,21 +117,6 @@ h2, h3 {
     color: #888;
 }
 
-.upgrade-btn {
-    background-color: var(--upgrade-color);
-    color: #000;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border: none;
-}
-
-.upgrade-btn:hover {
-    background-color: #FFD700;
-    opacity: 0.8;
-}
-
 @media (max-width: 768px) {
     .favorites-container {
         grid-template-columns: 1fr;

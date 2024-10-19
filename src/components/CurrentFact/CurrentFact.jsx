@@ -30,7 +30,7 @@ const CurrentFact = ({data}) => {
     };
     return (
         <>
-            {data ? <div className="fact-check-result mb-2 fade-in" id="fact-check-result">
+            {data ? <div className="bg-[var(--card-bg)] p-8 rounded-[20px] shadow-lg mb-8 mb-2 fade-in" id="fact-check-result">
                 <h3>Fact Check Result:</h3>
                 <div className="result-item">
                     <h4>Claim: {data.title}</h4>

@@ -4,9 +4,9 @@ import './FactSearch.css'
 import {getFact} from "../../api/facts";
 import History from "../../pages/History/History";
 import {getHistory} from "../../api/user";
-import {FaCopy} from "react-icons/fa";
 import LoaderComponent from "../global/Loader/Loader";
 import CurrentFact from "../CurrentFact/CurrentFact";
+import LoaderSceleton from "../global/LoaderSceleton/LoaderSceleton";
 const FactSearch = () => {
     const { register, handleSubmit } = useForm()
     const [data,setData]=useState(false);
@@ -39,21 +39,29 @@ const FactSearch = () => {
     const onDeleteFact=(factId)=>setHistories(prevState =>prevState.filter(el=>el._id!==factId));
     return (
         <div className="main-content">
-            <div className="search-container">
+            <div className="bg-[var(--card-bg)] p-8 rounded-[20px] shadow-lg mb-8">
                 <h2>Hi Shafi!</h2>
-                <form onSubmit={handleSubmit(onSubmitHandle)}>
-                    <div className="search-bar">
-                        <input {...register("fact")} type="text" placeholder="Enter your query..."/>
-                        <button type={"submit"}>Check Facts</button>
+                <form className={"w-full"} onSubmit={handleSubmit(onSubmitHandle)}>
+                    <div className="grid grid-cols-1 sm:grid-cols-5 gap-2 w-full max-w-lg mx-auto">
+                        <input
+                            type="text"
+                            {...register("fact")}
+                            placeholder="Enter something..."
+                            className="col-span-4 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
+                        <button
+                            className="col-span-1 bg-primary text-white py-2 px-4 rounded-md hover:bg-primary-dark transition duration-300">
+                            Submit
+                        </button>
                     </div>
                 </form>
             </div>
-            {isLoading ? <LoaderComponent/>:""}
-             <CurrentFact data={data}/>
+            {isLoading ? <LoaderSceleton/> : ""}
+            <CurrentFact data={data}/>
             {isHistoryLoading ? <LoaderComponent/> :
                 <History
                     onDeleteFact={onDeleteFact}
-                    histories={histories} setCurrentFact={(fact)=>setData(fact)}/>}
+                    histories={histories} setCurrentFact={(fact) => setData(fact)}/>}
         </div>
     );
 };
