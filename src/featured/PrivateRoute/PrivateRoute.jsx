@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {verifyJwt} from "../../api/auth";
 import {useNavigate} from "react-router-dom";
+import {useUser} from "../../context/UserContext";
 
 const PrivateRoute = ({children}) => {
-    const [user,setUser]=useState(null)
+    const { setUser,user } = useUser(); // Get setUser from context
     const navigate=useNavigate();
     useEffect(() => {
         const token=localStorage.getItem("token")

@@ -30,3 +30,13 @@ body {
   margin-left: 70px;
   overflow-y: auto;
 }
+@media (max-width:600px) {
+  .main-content{
+    margin-left: 0;
+    padding: 2rem 1rem 0 1rem;
+  }
+
+}
+.dashboardContent{
+  margin-left: 190px !important;
+}

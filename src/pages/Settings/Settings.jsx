@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import {changePassword, getUserDetails} from "../../api/user";
+import React, { useState } from 'react';
+import {changePassword} from "../../api/user";
 import Form from "../../components/Form/Form";
+import {useUser} from "../../context/UserContext";
+import {applyCouponCode} from "../../api/couponCode";
+import Alert from "../../components/global/SuccessfulAlert/SuccesfullAlert";
+import useAlert from "../../hooks/useAlert";
 
 const UserForm = () => {
-    // State to manage popup visibility
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-    // Main form handling
-
-        const [serverError,setServerError]=useState("")
+    const [popupError,setPopupError]=useState("")
+    const [serverError,setServerError]=useState("")
     const [isSubmitting,setIsSubmitting]=useState(false)
+    const [isCodeSubmitting,setIsCodeSubmitting]=useState(false)
     const onSubmit =async (data) => {
         console.log('Main Form Data:', data);
         setIsSubmitting(true)
@@ -19,36 +20,36 @@ const UserForm = () => {
             setServerError(res.response.data.message)
         }
         else{
-            alert("Password changed !")
+            triggerAlert('Password changed successfully', ``);
             setServerError("");
         }
         setIsSubmitting(false);
     };
-        const {
-        register: registerPopup,
-        handleSubmit: handleSubmitPopup,
-        formState: { errors: popupErrors },
-        setValue,
-        reset: resetPopupForm,
-    } = useForm();
+        const {user,setUser}=useUser()
+    const { show, mainText, text, triggerAlert, onClose } = useAlert();
     const onSubmitPopup =async (data) => {
-        console.log('Popup Form Data:', data);
-
-        resetPopupForm();
-        setIsPopupOpen(false); // Close popup after submission
+        setIsCodeSubmitting(true)
+        const res=await applyCouponCode(data.code);
+        console.log('res:',res);
+        if(res.creditsAdded){
+            triggerAlert('The coupon applied successfully', `You have got a ${res.creditsAdded} credits! `);
+            setUser(prevState=>({...prevState,credits:res.creditsAdded+prevState.credits}))
+            setPopupError("")
+            setIsPopupOpen(false);
+        }
+        else{
+            if (res.code==="ERR_BAD_REQUEST"){
+                setPopupError(res.response.data.message)
+            }
+        }
+        setIsCodeSubmitting(false)
     };
-
-    // Close popup when overlay is clicked
     const handleOverlayClick = () => {
         setIsPopupOpen(false);
     };
-
-    // Prevent the popup form from closing when clicked inside
     const handlePopupClick = (event) => {
         event.stopPropagation();
     };
-
-    // Define the input fields configuration for the main form
     const fields = [
         {
             name: 'userName',
@@ -75,23 +76,15 @@ const UserForm = () => {
             validation: { required: 'New password is required' },
         },
     ];
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const res = await getUserDetails();
-            console.log('res:', res);
-            if (res.id) {
-                setValue('userName', res.name);
-                setValue('email', res.email);
-
-            }
-        };
-        fetchData();
-    }, [setValue]);
-
+    const popupFields=[{
+        name: 'code',
+        label: 'Provide code',
+        type: 'text',
+    }]
     return (
         <div className="min-h-screen bg-gray-100">
             {/* Main Form */}
+            <Alert show={show} mainText={mainText} text={text} onClose={onClose} />
             <div className="flex flex-wrap justify-between">
                 <h2 className="text-[#6C63FF]">Settings</h2>
                 <div>
@@ -105,14 +98,14 @@ const UserForm = () => {
                 </div>
             </div>
             <div className="flex w-full justify-center">
-                <Form globalError={serverError}  isLoading={isSubmitting}
+                <Form defaultValues={{
+                    userName:user.name,
+                    email:user.email
+                }} globalError={serverError}  isLoading={isSubmitting}
                       resetForm fields={fields} title={"Settings"} onSubmit={onSubmit}/>
             </div>
-
-            {/* Popup Modal */}
             {isPopupOpen && (
                 <>
-                    {/* Overlay */}
                     <div
                         className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-400"
                         onClick={handleOverlayClick} // Close popup on clicking overlay
@@ -130,55 +123,8 @@ const UserForm = () => {
                             className="bg-[#2C3E50] p-8 rounded-lg w-[400px] relative"
                             onClick={handlePopupClick} // Prevent closing on clicking inside the popup
                         >
-                            <h3
-                                id="popup-title"
-                                className="text-xl text-white mb-4 text-center"
-                            >
-                                Popup Form
-                            </h3>
-
-                            {/* Popup Form */}
-                            <form onSubmit={handleSubmitPopup(onSubmitPopup)}>
-                                <div className="mb-4">
-                                    <label className="block text-white mb-2" htmlFor="popupField">
-                                        Popup Field
-                                    </label>
-                                    <input
-                                        id="popupField"
-                                        type="text"
-                                        {...registerPopup('popupField', { required: 'This field is required' })}
-                                        className={`w-full p-2 text-black rounded border ${
-                                            popupErrors.popupField ? 'border-red-500' : 'border-gray-400'
-                                        } text-gray-200`}
-                                        placeholder="Enter popup information"
-                                    />
-                                    {popupErrors.popupField && (
-                                        <p className="text-red-500 text-sm mt-1">
-                                            {popupErrors.popupField.message}
-                                        </p>
-                                    )}
-                                </div>
-
-                                {/* Buttons in Popup */}
-                                <div className="flex justify-end space-x-4">
-                                    {/* Close Button */}
-                                    <button
-                                        type="button"
-                                        onClick={() => setIsPopupOpen(false)}
-                                        className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
-                                    >
-                                        Close
-                                    </button>
-
-                                    {/* Submit Button */}
-                                    <button
-                                        type="submit"
-                                        className="px-4 py-2 bg-[#D95D30] text-white rounded hover:bg-[#e0633a] transition-colors"
-                                    >
-                                        Submit
-                                    </button>
-                                </div>
-                            </form>
+                            <Form isLoading={isCodeSubmitting} resetForm  globalError={popupError}
+                                   fields={popupFields} title={"Coupon Code"} onSubmit={onSubmitPopup}/>
                         </div>
                     </div>
                 </>

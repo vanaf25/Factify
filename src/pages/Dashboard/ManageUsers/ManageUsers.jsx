@@ -1,27 +1,17 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {AgGridReact} from "ag-grid-react";
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import './Customizing.css';
+import {getAllUsers} from "../../../api/user";
 const ManageUsers = () => {
-    const [rowData,setRows] = useState([
-        { username: 'user1', email: 'user1@example.com', credits: 250, subscriptionType: 'LTD Subscription', platformType: 'YouTube 1', ltdCouponCodes: 'CODE1 x, CODE2 x' },
-        { username: 'user2', email: 'user2@example.com', credits: 250, subscriptionType: 'LTD Subscription', platformType: 'YouTube 1', ltdCouponCodes: 'CODE3 x, CODE4 x' },
-        { username: 'user3', email: 'user3@example.com', credits: 50, subscriptionType: 'Regular Subscription', platformType: 'YouTube 2', ltdCouponCodes: '-' },
-        { username: 'user4', email: 'user4@example.com', credits: 50, subscriptionType: 'Regular Subscription', platformType: 'YouTube 3', ltdCouponCodes: '-' },
-        { username: 'user5', email: 'user5@example.com', credits: 250, subscriptionType: 'LTD Subscription', platformType: 'YouTube 1', ltdCouponCodes: 'CODE5 x, CODE6 x' },
-        { username: 'user6', email: 'user6@example.com', credits: 50, subscriptionType: 'Regular Subscription', platformType: 'YouTube 2', ltdCouponCodes: '-' },
-        { username: 'user7', email: 'user7@example.com', credits: 250, subscriptionType: 'LTD Subscription', platformType: 'YouTube 1', ltdCouponCodes: 'CODE7 x, CODE8 x' },
-        { username: 'user8', email: 'user8@example.com', credits: 50, subscriptionType: 'Regular Subscription', platformType: 'YouTube 3', ltdCouponCodes: '-' },
-        { username: 'user9', email: 'user9@example.com', credits: 250, subscriptionType: 'LTD Subscription', platformType: 'YouTube 1', ltdCouponCodes: 'CODE9 x, CODE10 x' },
-        { username: 'user10', email: 'user10@example.com', credits: 50, subscriptionType: 'Regular Subscription', platformType: 'YouTube 2', ltdCouponCodes: '-' },
-    ]);
+    const [rowData,setRows] = useState([]);
 
     const columnDefs = [
-        { headerName: 'Username',flex:1, field: 'username' },
+        { headerName: 'Username',flex:1, field: 'name' },
         { headerName: 'Email',flex:2, field: 'email' },
         { headerName: 'Credits',flex:1, field: 'credits' },
-        { headerName: 'Subscription Type',flex:2, field: 'subscriptionType' },
+        { headerName: 'Subscription Type',flex:2, field: 'subscription' },
         { headerName: 'Platform Type',flex:1.4, field: 'platformType' },
         { headerName: 'LTD Coupon Codes',flex:2, field: 'ltdCouponCodes' },
         {
@@ -37,20 +27,26 @@ const ManageUsers = () => {
             ),
         },
     ];
-
+    useEffect(() => {
+        const func=async ()=>{
+            const res=await getAllUsers()
+            console.log(res);
+            setRows(res);
+        }
+        func()
+    }, []);
     const handleDelete = (username) => {
         // Handle delete action (e.g., remove from state, API call, etc.)
         console.log(`Delete user: ${username}`);
-        setRows(prev=>prev.filter(a=>a.username!==username))
     };
 
     const exportToCSV = () => {
         // Convert rowData to CSV format
         const csvData = rowData.map(row => ({
-            Username: row.username,
+            Username: row.name,
             Email: row.email,
             Credits: row.credits,
-            'Subscription Type': row.subscriptionType,
+            'Subscription Type': row.subscription,
             'Platform Type': row.platformType,
             'LTD Coupon Codes': row.ltdCouponCodes,
         }));

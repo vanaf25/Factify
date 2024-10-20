@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       colors: {
         primary: '#6C63FF',
+        "primary-dark":'#5A54D4',
         secondary: '#FF6584',
         accent1: '#4CAF50',
         accent2: '#FFC107',
@@ -17,6 +18,15 @@ module.exports = {
         cardBg: '#FFFFFF',
         sidebarBg: '#2C3E50',
         sidebarText: '#ECF0F1',
+      },
+      keyframes: {
+        shimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
+      },
+      animation: {
+        shimmer: 'shimmer 1.5s infinite',
       },
     },
   },

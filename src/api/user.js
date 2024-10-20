@@ -80,3 +80,16 @@ export const removeFromFavorite=async (factId)=>{
         return error
     }
 }
+export const getAllUsers=async ()=>{
+    try {
+        const response = await instance.get('user/all',{
+            headers:{
+                Authorization:`Bearer ${localStorage.getItem("token")}`
+            }
+        });
+        return response.data
+    } catch (error) {
+        console.error('Error fetching data from instance:', error);
+        return error
+    }
+}

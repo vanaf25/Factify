@@ -5,9 +5,12 @@ import {Link} from "react-router-dom";
 
 const ReusableForm = ({ title, fields, onSubmit,
                           globalError,isLoading,
-                          submitButtonText = 'Submit',additionalLinks=[],resetForm }) => {
+                          submitButtonText = 'Submit',
+                          additionalLinks=[],resetForm,defaultValues }) => {
     const { register, handleSubmit
-        , formState: { errors }, reset } = useForm();
+        , formState: { errors }, reset } = useForm({
+        defaultValues:defaultValues
+    });
 
     const handleFormSubmit = async (data) => {
        await onSubmit(data)
@@ -16,12 +19,11 @@ const ReusableForm = ({ title, fields, onSubmit,
         }
         // Optionally reset the form after submission
     };
-    console.log('f:',isLoading);
     return (
-        <div className="flex w-full  justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div className="flex w-full  justify-center items-center   ">
             <form
                 onSubmit={handleSubmit(handleFormSubmit)}
-                className="bg-white dark:bg-gray-800 rounded-card shadow-card p-8 w-full max-w-md"
+                className="bg-white  rounded-card shadow-card p-8 w-full max-w-md"
             >
                 <h2 className="text-2xl font-bold text-primary dark:text-primary mb-6 text-center">{title}</h2>
 

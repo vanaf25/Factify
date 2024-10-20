@@ -16,15 +16,18 @@ import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
 import {useEffect} from "react";
 import {verifyJwt} from "./api/auth";
 import PrivateRoute from "./featured/PrivateRoute/PrivateRoute";
+import {UserProvider} from "./context/UserContext";
+import SuccessfulAlert from "./components/global/SuccessfulAlert/SuccesfullAlert";
 function App() {
     const {pathname}=useLocation()
     console.log('location:',pathname);
 
   return (
-      <>
+      <UserProvider >
           <div className="dashboard">
               {pathname.includes("dashboard") ?  <AdminDashboard/> : <SideBar/>}
-              <div className={`${pathname.includes("dashboard") ? "pl-[100px]":"main-content"} w-full ` }>
+              <div className={`${pathname.includes("dashboard") ? "main-content dashboardContent":"main-content"} w-full ` }>
+                  <SuccessfulAlert/>
                   <Routes>
                       <Route path="/" element={<PrivateRoute><FactSearch/></PrivateRoute>} />
                       <Route path="/dashboard/LTD" element={ <GenerateLTDCode/> } />
@@ -39,7 +42,7 @@ function App() {
                   </Routes>
               </div>
           </div>
-      </>
+      </UserProvider>
   );
 }
 

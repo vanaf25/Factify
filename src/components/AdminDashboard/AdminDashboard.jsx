@@ -10,8 +10,8 @@ const AdminDashboard = () => {
         {href:`${currentRoute}/settings`, text:"Settings"}]
     return (
         <aside className={"bg-[#2C3E50] px-2 text-white width-200 hover:width-250 flex flex-col" +
-            " justify-between fixed h-screen "}>
-            <div>
+            "  fixed h-screen "}>
+            <div className={"mb-3"}>
                <Link to={"/"}>
                    {<div className="logo">
                        <span className="text-white">Factify</span><span className="logo-gpt">GPT</span>
