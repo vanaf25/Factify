@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import Form from "../../components/Form/Form";
 import {register} from "../../api/auth";
 import {useNavigate} from "react-router-dom";
-
 const SignUp = () => {
     const userFormFields = [
         {

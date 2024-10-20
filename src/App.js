@@ -23,7 +23,7 @@ function App() {
     console.log('location:',pathname);
 
   return (
-      <UserProvider >
+      <UserProvider>
           <div className="dashboard">
               {pathname.includes("dashboard") ?  <AdminDashboard/> : <SideBar/>}
               <div className={`${pathname.includes("dashboard") ? "main-content dashboardContent":"main-content"} w-full ` }>
