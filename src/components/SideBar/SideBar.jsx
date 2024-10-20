@@ -5,7 +5,7 @@ import { useUser } from "../../context/UserContext";
 
 const SideBar = () => {
     const [isHovered, setIsHovered] = useState(false);
-    const [isOpen, setIsOpen] = useState(false); // State to toggle sidebar visibility on small devices
+    const [isOpen, setIsOpen] = useState(false);
     const handleMouseEnter = () =>{
        if (window.innerWidth>600){
            setIsHovered(true);
@@ -68,11 +68,11 @@ const SideBar = () => {
                         <div className="sidebar-footer">
                             <div className="credits">
                                 <span>Credits</span>
-                                <span>{user.credits}</span>
+                                <span>{user?.credits}</span>
                             </div>
                             <div style={{ marginBottom: "10px" }} className="plan">
                                 <span>Plan: </span>
-                                <span>{user.subscription}</span>
+                                <span>{user?.subscription}</span>
                             </div>
                             <Link to={"/upgrade"}>
                                 <button className="upgrade-btn">Upgrade Plan</button>

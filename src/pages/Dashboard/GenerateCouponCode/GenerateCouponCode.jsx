@@ -1,8 +1,9 @@
 // src/components/GenerateCodesForm.jsx
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ReusableForm from "../../../components/Form/Form";
-import {generateCouponCode} from "../../../api/couponCode";
+import {generateCouponCode, getCouponsCode} from "../../../api/couponCode";
 import {AgGridReact} from "ag-grid-react";
+import FactSceleton from "../../../components/global/FactSceleton/FactSceleton";
 const CouponList = ({ coupons }) => {
     // Function to copy the code to clipboard
     const handleCopy = (code) => {
@@ -62,23 +63,34 @@ const CouponList = ({ coupons }) => {
         },
     ];
         const [rowData,setRowData]=useState([])
-    const handleFormSubmit = async (data) => {
-        console.log('d:',data);
+    const [isSubmitting,setIsSubmitting]=useState(false);
+    const [isLoading,setIsLoading]=useState(false)
+        const handleFormSubmit = async (data) => {
+        setIsSubmitting(true)
         const res=await generateCouponCode({creditValue:Number(data.creditValue),couponAmount:+data.couponAmount})
-        console.log('Generated Codes Data:', res);
-        setRowData(res)
-
+        setIsSubmitting(false)
+        setRowData(prevState =>([...prevState,...res]) )
     };
-
+    useEffect(() => {
+        const func=async ()=>{
+            setIsLoading(true)
+           const res=await getCouponsCode()
+            setRowData(res);
+            setIsLoading(false)
+        }
+        func()
+    }, []);
     return (
         <>
             <ReusableForm
+                isLoading={isSubmitting}
+                resetForm
                 title="Generate Coupon Code"
                 fields={formFields}
                 onSubmit={handleFormSubmit}
                 submitButtonText="Generate"
             />
-            {rowData.length ? <CouponList coupons={rowData}/>:""}
+            {isLoading ? <FactSceleton/>:rowData.length ? <CouponList coupons={rowData}/>:""}
         </>
 
     );

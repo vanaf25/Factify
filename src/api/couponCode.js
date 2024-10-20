@@ -26,3 +26,16 @@ export const generateCouponCode=async (body)=>{
         return error
     }
 }
+export const getCouponsCode=async (body)=>{
+    try {
+        const response = await instance.get(`couponCode/`,body,{
+            headers:{
+                Authorization:`Bearer ${localStorage.getItem("token")}`
+            },
+        });
+        return response.data
+    } catch (error) {
+        console.error('Error fetching data from instance:', error);
+        return error
+    }
+}

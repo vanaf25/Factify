@@ -61,9 +61,9 @@ const FactSearch = () => {
                     </div>
                 </form>
             </div>
-            {isLoading ? <FactSceleton/> : ""}
+            {isLoading ? <LoaderSceleton/> : ""}
             <CurrentFact data={data}/>
-            {isHistoryLoading ? <LoaderComponent/> :
+            {isHistoryLoading ? <FactSceleton/> :
                 <History
                     onDeleteFact={onDeleteFact}
                     histories={histories} setCurrentFact={(fact) => setData(fact)}/>}

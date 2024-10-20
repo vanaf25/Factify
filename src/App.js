@@ -27,7 +27,6 @@ function App() {
           <div className="dashboard">
               {pathname.includes("dashboard") ?  <AdminDashboard/> : <SideBar/>}
               <div className={`${pathname.includes("dashboard") ? "main-content dashboardContent":"main-content"} w-full ` }>
-                  <SuccessfulAlert/>
                   <Routes>
                       <Route path="/" element={<PrivateRoute><FactSearch/></PrivateRoute>} />
                       <Route path="/dashboard/LTD" element={ <GenerateLTDCode/> } />
