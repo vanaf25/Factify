@@ -25,11 +25,11 @@ const ReusableForm = ({ title, fields, onSubmit,
                 onSubmit={handleSubmit(handleFormSubmit)}
                 className="bg-white  rounded-card shadow-card p-8 w-full max-w-md"
             >
-                <h2 className="text-2xl font-bold text-primary dark:text-primary mb-6 text-center">{title}</h2>
+                <h2 className="text-2xl font-bold text-primary  mb-6 text-center">{title}</h2>
 
                 {fields?.map((field, index) => (
                     <div className="mb-6" key={index}>
-                        <label htmlFor={field.name} className="block text-gray-700 dark:text-gray-200 mb-2">
+                        <label htmlFor={field.name} className="block text-gray-700  mb-2">
                             {field.label}
                         </label>
                         <input
@@ -40,13 +40,13 @@ const ReusableForm = ({ title, fields, onSubmit,
                             aria-label={field.label}
                             {...register(field.name, field.validation)}
                             className={`w-full px-4 py-2 border ${
-                               !field.disabled && ( errors[field.name] || globalError)   ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                               !field.disabled && ( errors[field.name] || globalError)   ? 'border-red-500' : 'border-gray-300 '
                             } rounded focus:outline-none focus:ring-2
                             ${
                              !field.disabled && (   errors[field.name] || globalError)   ?
                                     'focus:ring-' : 'focus:ring-primary'
                             }
-                              dark:bg-gray-700 dark:text-white`}
+                              `}
                         />
                         {errors[field.name] && (
                             <p className="text-red-500 text-sm mt-1">{errors[field.name].message}</p>
@@ -59,8 +59,8 @@ const ReusableForm = ({ title, fields, onSubmit,
                     aria-label={submitButtonText}
                     disabled={isLoading}
                     className={` w-full bg-primary
-                     dark:bg-primary text-white
-                      py-2 mb-2 rounded hover:bg-secondary dark:hover:bg-secondary transition-colors 
+                      text-white
+                      py-2 mb-2 rounded hover:bg-secondary  transition-colors 
                       duration-300 font-semibold`}
                 >
                     {isLoading ? "Submitting...":submitButtonText}
