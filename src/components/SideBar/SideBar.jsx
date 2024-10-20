@@ -7,11 +7,14 @@ const SideBar = () => {
     const [isHovered, setIsHovered] = useState(false);
     const [isOpen, setIsOpen] = useState(false); // State to toggle sidebar visibility on small devices
     const handleMouseEnter = () =>{
-        console.log(window.innerWidth);
        if (window.innerWidth>600){
            setIsHovered(true);
        }
     }
+    const resizeEvent=()=>{
+        if (window.innerWidth>600) setIsOpen(false)
+    }
+    window.addEventListener("resize",resizeEvent);
     const handleMouseLeave = () =>{
         if (window.innerWidth>600){
             setIsHovered(false);

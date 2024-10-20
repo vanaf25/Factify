@@ -8,6 +8,7 @@ import LoaderComponent from "../global/Loader/Loader";
 import CurrentFact from "../CurrentFact/CurrentFact";
 import LoaderSceleton from "../global/LoaderSceleton/LoaderSceleton";
 import {useUser} from "../../context/UserContext";
+import FactSceleton from "../global/FactSceleton/FactSceleton";
 const FactSearch = () => {
     const { register, handleSubmit } = useForm()
     const [data,setData]=useState(false);
@@ -60,7 +61,7 @@ const FactSearch = () => {
                     </div>
                 </form>
             </div>
-            {isLoading ? <LoaderSceleton/> : ""}
+            {isLoading ? <FactSceleton/> : ""}
             <CurrentFact data={data}/>
             {isHistoryLoading ? <LoaderComponent/> :
                 <History
