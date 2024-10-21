@@ -5,12 +5,14 @@ import Form from "../../components/Form/Form";
 import {applyLtdCode} from "../../api/ltdCode";
 import useAlert from "../../hooks/useAlert";
 import Alert from "../../components/global/SuccessfulAlert/SuccesfullAlert";
+import {useUser} from "../../context/UserContext";
 const UpgradePlan = () => {
     // State to manage popup visibility
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isApplying,setIsApplying]=useState(false)
     const [error,setError]=useState("")
     const { show, mainText, text, triggerAlert, onClose } = useAlert();
+    const {setUser,user} =useUser()
     const onSubmitPopup = async (data) => {
         console.log('Popup Form Data:', data);
         setIsApplying(true)
@@ -18,6 +20,7 @@ const UpgradePlan = () => {
         if (res.message==="Code redeemed"){
             setIsPopupOpen(false);
             setError("")
+            setUser({...user,credits:user.credits+50})
             triggerAlert("LTD code was successfully applied!","You will get 50 credits every month");
         }
         if (res.code){
