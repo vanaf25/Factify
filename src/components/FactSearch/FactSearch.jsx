@@ -9,15 +9,32 @@ import CurrentFact from "../CurrentFact/CurrentFact";
 import LoaderSceleton from "../global/LoaderSceleton/LoaderSceleton";
 import {useUser} from "../../context/UserContext";
 import FactSceleton from "../global/FactSceleton/FactSceleton";
+import CheckFactLoader from "../global/CheckFactLoader/CheckFactLoader";
 const FactSearch = () => {
     const { register, handleSubmit } = useForm()
     const [data,setData]=useState(false);
     const [isLoading,setIsLoading]=useState(false);
     const [histories,setHistories]=useState([])
+    const [progress,setProgress]=useState(0)
     const [isHistoryLoading,setIsHistoryLoading]=useState(false);
+    useEffect(() => {
+        if (progress > 0 && progress < 100) {
+            const interval = setInterval(() => {
+                setProgress(prev => prev + 1);
+            }, 100);
+            return () => clearInterval(interval);
+        } else if (progress === 100) {
+            setIsLoading(false);
+            setProgress(0)
+        }
+    }, [progress]);
     const onSubmitHandle=async (data)=>{
         console.log('data:',data);
         setIsLoading(true)
+        setProgress(0);
+        setTimeout(() => {
+            setProgress(1); // Start progress after a delay
+        }, 100);
         const resData=await getFact(data.fact)
         setData(resData);
         console.log("d:",resData);
@@ -27,7 +44,6 @@ const FactSearch = () => {
                 prevState.slice(0,prevState.length-1):prevState
             return [resData,...withoutLastElem]
         });
-        setIsLoading(false)
     }
     useEffect(() => {
         const func=async ()=>{
@@ -55,14 +71,15 @@ const FactSearch = () => {
                         />
                         <button
                             disabled={isLoading || user.credits===0}
-                            className={`${isLoading ? 'cursor-not-allowed bg-primary-light opacity-50' : ''} col-span-1 bg-primary text-white py-2 px-4 rounded-md hover:bg-primary-dark transition duration-300`}>
+                            className={`${isLoading ? 'cursor-not-allowed bg-primary-light opacity-50' : ''} col-span-1 bg-secondary text-white py-2 px-4 rounded-md hover:bg-primary-dark transition duration-300`}>
                             {isLoading ? "checking...":"Check"}
                         </button>
                     </div>
                 </form>
+                {isLoading ? <CheckFactLoader progress={progress}/>:""}
             </div>
             {isLoading ? <LoaderSceleton/> : ""}
-            <CurrentFact data={data}/>
+            {!isLoading ? <CurrentFact data={data}/>:""}
             {isHistoryLoading ? <FactSceleton/> :
                 <History
                     onDeleteFact={onDeleteFact}

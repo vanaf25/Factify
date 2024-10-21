@@ -1,41 +1,48 @@
-// src/components/UpgradePlan.jsx
 
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import './UpgradePlan.css'
+import Form from "../../components/Form/Form";
+import {applyLtdCode} from "../../api/ltdCode";
+import useAlert from "../../hooks/useAlert";
+import Alert from "../../components/global/SuccessfulAlert/SuccesfullAlert";
 const UpgradePlan = () => {
     // State to manage popup visibility
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-    // Popup form handling using react-hook-form
-    const {
-        register: registerPopup,
-        handleSubmit: handleSubmitPopup,
-        formState: { errors: popupErrors },
-        reset: resetPopupForm,
-    } = useForm();
-
-    const onSubmitPopup = (data) => {
+    const [isApplying,setIsApplying]=useState(false)
+    const [error,setError]=useState("")
+    const { show, mainText, text, triggerAlert, onClose } = useAlert();
+    const onSubmitPopup = async (data) => {
         console.log('Popup Form Data:', data);
-        // Handle popup form submission logic here (e.g., API call)
-        resetPopupForm();
-        setIsPopupOpen(false); // Close popup after submission
+        setIsApplying(true)
+        const res= await applyLtdCode(data.code)
+        if (res.message==="Code redeemed"){
+            setIsPopupOpen(false);
+            setError("")
+            triggerAlert("LTD code was successfully applied!","You will get 50 credits every month");
+        }
+        if (res.code){
+            setError(res.response.data.message)
+        }
+        console.log('res:',res);
+        setIsApplying(false)
     };
 
     // Close popup when overlay is clicked
     const handleOverlayClick = () => {
         setIsPopupOpen(false);
+        setError("")
     };
 
     // Prevent the popup form from closing when clicked inside
     const handlePopupClick = (event) => {
         event.stopPropagation();
+        setError("")
     };
 
     // Define the input fields configuration for the popup form
     const popupFields = [
         {
-            name: 'LTD',
+            name: 'code',
             label: 'Enter Your LTD Coupon Code',
             type: 'text',
             validation: {
@@ -44,8 +51,10 @@ const UpgradePlan = () => {
         },
     ];
         const [isCheckBoxChecked,setIsCheckboxChecked]=useState(false);
+
     return (
         <main className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
+            <Alert show={show} mainText={mainText} text={text} onClose={onClose} />
             {/* Header */}
             <div className="w-full max-w-4xl flex justify-between items-center mb-8">
                 <h2 className="text-3xl font-semibold text-[#FFA500]">Upgrade Your Plan</h2>
@@ -159,7 +168,7 @@ const UpgradePlan = () => {
                 <>
                     {/* Overlay */}
                     <div
-                        className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+                        className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-200"
                         onClick={handleOverlayClick} // Close popup on clicking overlay
                         aria-labelledby="popup-title"
                         role="dialog"
@@ -168,64 +177,14 @@ const UpgradePlan = () => {
 
                     {/* Modal Content */}
                     <div
-                        className="fixed inset-0 flex justify-center items-center z-50"
+                        className="fixed inset-0 flex justify-center items-center z-500"
                         onClick={handleOverlayClick} // Close popup on clicking overlay
                     >
                         <div
                             className="bg-[#2C3E50] p-8 rounded-lg w-full max-w-sm shadow-lg relative"
                             onClick={handlePopupClick} // Prevent closing on clicking inside the popup
                         >
-                            <h3
-                                id="popup-title"
-                                className="text-xl text-white mb-4 text-center"
-                            >
-                                Subscribe to LTD
-                            </h3>
-
-                            {/* Popup Form */}
-                            <form onSubmit={handleSubmitPopup(onSubmitPopup)}>
-                                {popupFields.map((field) => (
-                                    <div className="mb-4" key={field.name}>
-                                        <label className="block text-white mb-2" htmlFor={field.name}>
-                                            {field.label}
-                                        </label>
-                                        <input
-                                            id={field.name}
-                                            type={field.type}
-                                            {...registerPopup(field.name, field.validation)}
-                                            className={`w-full p-2 rounded focus:outline-none focus:border-black border ${
-                                                popupErrors[field.name] ? 'border-red-500' : 'border-gray-300'
-                                            }`}
-                                            placeholder={field.label}
-                                        />
-                                        {popupErrors[field.name] && (
-                                            <p className="text-red-500 text-sm mt-1">
-                                                {popupErrors[field.name].message}
-                                            </p>
-                                        )}
-                                    </div>
-                                ))}
-
-                                {/* Buttons in Popup */}
-                                <div className="flex justify-end space-x-4">
-                                    {/* Close Button */}
-                                    <button
-                                        type="button"
-                                        onClick={() => setIsPopupOpen(false)}
-                                        className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
-                                    >
-                                        Close
-                                    </button>
-
-                                    {/* Submit Button */}
-                                    <button
-                                        type="submit"
-                                        className="px-4 py-2 bg-[#FFA500] text-white rounded hover:bg-[#e59400] transition-colors"
-                                    >
-                                        Apply Code
-                                    </button>
-                                </div>
-                            </form>
+                           <Form isLoading={isApplying} globalError={error}   fields={popupFields} title={"Apply ltd Code"} onSubmit={onSubmitPopup}  submitButtonText={"Apply Code"}/>
                         </div>
                     </div>
                 </>
