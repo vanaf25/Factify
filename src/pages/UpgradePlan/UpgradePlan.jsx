@@ -20,7 +20,7 @@ const UpgradePlan = () => {
         if (res.message==="Code redeemed"){
             setIsPopupOpen(false);
             setError("")
-            setUser({...user,credits:user.credits+50})
+            setUser({...user,credits:user.creditsx+50})
             triggerAlert("LTD code was successfully applied!","You will get 50 credits every month");
         }
         if (res.code){

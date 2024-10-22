@@ -20,8 +20,6 @@ import {UserProvider} from "./context/UserContext";
 import SuccessfulAlert from "./components/global/SuccessfulAlert/SuccesfullAlert";
 function App() {
     const {pathname}=useLocation()
-    console.log('location:',pathname);
-
   return (
       <UserProvider>
           <div className="dashboard">
@@ -29,10 +27,10 @@ function App() {
               <div className={`${pathname.includes("dashboard") ? "main-content dashboardContent":"main-content"} w-full ` }>
                   <Routes>
                       <Route path="/" element={<PrivateRoute><FactSearch/></PrivateRoute>} />
-                      <Route path="/dashboard/LTD" element={ <GenerateLTDCode/> } />
-                      <Route path="/dashboard/GenerateCouponCode" element={ <GenerateCouponCode/> } />
-                      <Route path="/dashboard/settings" element={<DashboardSettings/> } />
-                      <Route path="/dashboard/manageUsers" element={ <ManageUsers/> } />
+                      <Route path="/dashboard/LTD" element={<PrivateRoute><GenerateLTDCode/></PrivateRoute> } />
+                      <Route path="/dashboard/GenerateCouponCode" element={<PrivateRoute><GenerateCouponCode/></PrivateRoute> } />
+                      <Route path="/dashboard/settings" element={<PrivateRoute><DashboardSettings/></PrivateRoute> } />
+                      <Route path="/dashboard/manageUsers" element={<PrivateRoute><ManageUsers/></PrivateRoute> } />
                       <Route path="/favorites" element={<PrivateRoute><FavoriteFact/></PrivateRoute> } />
                       <Route path={"/upgrade"} element={<PrivateRoute><UpgradePlan/></PrivateRoute>}/>
                       <Route path={"/settings"} element={<PrivateRoute><Settings/></PrivateRoute>}/>

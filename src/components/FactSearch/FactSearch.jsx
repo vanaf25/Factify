@@ -10,12 +10,16 @@ import LoaderSceleton from "../global/LoaderSceleton/LoaderSceleton";
 import {useUser} from "../../context/UserContext";
 import FactSceleton from "../global/FactSceleton/FactSceleton";
 import CheckFactLoader from "../global/CheckFactLoader/CheckFactLoader";
+import useAlert from "../../hooks/useAlert";
+import Alert from "../global/SuccessfulAlert/SuccesfullAlert";
 const FactSearch = () => {
     const { register, handleSubmit } = useForm()
     const [data,setData]=useState(false);
     const [isLoading,setIsLoading]=useState(false);
     const [histories,setHistories]=useState([])
     const [progress,setProgress]=useState(0)
+    const [isFactCheckError,setIsFactCheckError]=useState(false);
+    const { show, mainText, text, triggerAlert, onClose } = useAlert();
     const [isHistoryLoading,setIsHistoryLoading]=useState(false);
     useEffect(() => {
         if (progress > 0 && progress < 100) {
@@ -24,26 +28,32 @@ const FactSearch = () => {
             }, 100);
             return () => clearInterval(interval);
         } else if (progress === 100) {
+            if (isFactCheckError) triggerAlert("Something went wrong!","some error occurred, try again")
             setIsLoading(false);
             setProgress(0)
         }
     }, [progress]);
     const onSubmitHandle=async (data)=>{
-        console.log('data:',data);
         setIsLoading(true)
+        setData(null);
+        setIsFactCheckError(false);
         setProgress(0);
         setTimeout(() => {
             setProgress(1); // Start progress after a delay
         }, 100);
         const resData=await getFact(data.fact)
-        setData(resData);
-        console.log("d:",resData);
-        setUser(prevState=>({...prevState,credits:prevState.credits-1}))
-        setHistories(prevState =>{
-            const withoutLastElem=prevState.length===15 ?
-                prevState.slice(0,prevState.length-1):prevState
-            return [resData,...withoutLastElem]
-        });
+        if(resData._id){
+            setData(resData);
+            setUser(prevState=>({...prevState,credits:prevState.credits-1}))
+            setHistories(prevState =>{
+                const withoutLastElem=prevState.length===15 ?
+                    prevState.slice(0,prevState.length-1):prevState
+                return [resData,...withoutLastElem]
+            });
+        }
+        else{
+            setIsFactCheckError(true);
+        }
     }
     useEffect(() => {
         const func=async ()=>{
@@ -59,13 +69,17 @@ const FactSearch = () => {
     const onDeleteFact=(factId)=>setHistories(prevState =>prevState.filter(el=>el._id!==factId));
     return (
         <div>
+            <Alert show={show} type={"danger"} mainText={mainText} text={text} onClose={onClose} />
             <div className="bg-[var(--card-bg)] p-8 rounded-[20px] shadow-lg mb-8">
                 <h2>Hi {user.name}!</h2>
                 <form className={"w-full"} onSubmit={handleSubmit(onSubmitHandle)}>
                     <div className="grid grid-cols-1 sm:grid-cols-5 gap-2 w-full max-w-lg mx-auto">
                         <input
                             type="text"
-                            {...register("fact")}
+                            {...register("fact",{
+                                required: "This field is required",
+                                validate: value => value.trim() !== "" || "Input cannot consist only of spaces"
+                            })}
                             placeholder="Enter something..."
                             className="sm:col-span-4 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                         />

@@ -1,11 +1,13 @@
 import React from 'react';
 import Form from "../../../components/Form/Form";
+import {useUser} from "../../../context/UserContext";
 
 const Settings = () => {
     const formFields = [
         {
-            name: "emailAddress",
+            name: "email",
             label: "Email Address",
+            disabled:true,
             placeholder: "Enter your email",
             type: "email",
             validation: { required: "Email Address is required" },
@@ -35,16 +37,18 @@ const Settings = () => {
             name: "mainPrompt",
             label: "Main Prompt for Perplexity API",
             placeholder: "Enter Prompt",
-            type: "text",
+            type: "textarea",
             validation: { required: "Main Prompt is required" },
         },
     ];
     const onSubmit=(data)=>{
         console.log('dashBoard settings:',data)
     }
+    const {user}=useUser();
+    console.log('u:',user);
     return (
         <Form onSubmit={onSubmit}
-              fields={formFields} submitButtonText={"update"}  title={"Settings"}/>
+              fields={formFields} defaultValues={{email:user?.email}} submitButtonText={"update"}  title={"Settings"}/>
          );
 };
 
