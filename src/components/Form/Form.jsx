@@ -36,7 +36,7 @@ const ReusableForm = ({ title, fields, onSubmit,
                         {field.type==="textarea" ? <textarea
                                 id={field.name}
                                 {...register(field.name, field.validation)}
-                                className={`w-full px-4 py-2 border ${
+                                className={`w-full h-64 px-4 py-2 border ${
                                 !field.disabled && ( errors[field.name] || globalError)   ? 'border-red-500' : 'border-gray-300 '
                             } rounded focus:outline-none focus:ring-2
                             ${
