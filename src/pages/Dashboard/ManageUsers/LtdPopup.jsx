@@ -36,17 +36,18 @@ const LtdPopup = ({handleOverlayClick,handlePopupClick,popupData}) => {
         saveAs(blob, 'ltd_codes.csv');
     };
     const deleteCodeHandle=async (codeId)=>{
+        console.log('id:',codeId);
         const res=await deleteLTDCode(codeId)
         if (res.success===true){
             setCodes(prevCodes=>prevCodes.filter(c=>c._id!==codeId));
         }
     }
     const columns=[{
-        field:"_id",
+        field:"code",
         headerName:"code",
-        flex:2
+        flex:2.5,
     },
-        {field:"platform",headerName: "Platform",flex:1},
+        {field:"platform",headerName: "Platform",flex:1.5},
         { headerName: 'Delete', flex: 1, field: 'action', cellRenderer: (params) => (
                 <div>
                     <button onClick={()=>deleteCodeHandle(params.data._id)} className={"bg-secondary w-full hover:bg-red-700 text-white font-bold"}
@@ -71,7 +72,7 @@ const LtdPopup = ({handleOverlayClick,handlePopupClick,popupData}) => {
                 onClick={handleOverlayClick} // Close popup on clicking overlay
             >
                 <div
-                    className="bg-white p-8 rounded-lg w-[600px] relative"
+                    className="bg-white p-8 rounded-lg w-[700px] relative"
                     onClick={handlePopupClick} // Prevent closing on clicking inside the popup
                 >
                     <h2>Ltd codes of {popupData.name}</h2>
