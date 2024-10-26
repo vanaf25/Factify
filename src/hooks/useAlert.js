@@ -5,11 +5,12 @@ const useAlert = () => {
     const [show, setShow] = useState(false);
     const [mainText, setMainText] = useState('');
     const [text, setText] = useState('');
-
-    const triggerAlert = (mainText, text) => {
+    const [type,setType]=useState("")
+    const triggerAlert = (mainText, text,type) => {
         setMainText(mainText);
         setText(text);
         setShow(true);
+        setType(type)
     };
 
     const onClose = () => {
@@ -20,6 +21,7 @@ const useAlert = () => {
         show,
         mainText,
         text,
+        type,
         triggerAlert,
         onClose,
     };

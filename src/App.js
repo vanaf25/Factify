@@ -4,7 +4,6 @@ import FavoriteFact from "./pages/FavoriteFact/FavoriteFact";
 import {Route, Routes, useLocation} from "react-router-dom";
 import FactSearch from "./components/FactSearch/FactSearch";
 import UpgradePlan from "./pages/UpgradePlan/UpgradePlan";
-import History from "./pages/History/History";
 import Settings from "./pages/Settings/Settings";
 import GenerateLTDCode from "./pages/Dashboard/GenerateLTDCode/GenerateLTDCode";
 import GenerateCouponCode from "./pages/Dashboard/GenerateCouponCode/GenerateCouponCode";
@@ -13,11 +12,10 @@ import SignIn from "./pages/SignIn/SignIn";
 import SignUp from "./pages/SignUp/SignUp";
 import ManageUsers from "./pages/Dashboard/ManageUsers/ManageUsers";
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
-import {useEffect} from "react";
-import {verifyJwt} from "./api/auth";
 import PrivateRoute from "./featured/PrivateRoute/PrivateRoute";
 import {UserProvider} from "./context/UserContext";
-import SuccessfulAlert from "./components/global/SuccessfulAlert/SuccesfullAlert";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
 function App() {
     const {pathname}=useLocation()
   return (
@@ -36,6 +34,8 @@ function App() {
                       <Route path={"/settings"} element={<PrivateRoute><Settings/></PrivateRoute>}/>
                       <Route path={"/signIn"} element={<SignIn/>}/>
                       <Route path={"/signUp"} element={<SignUp/>}/>
+                      <Route path={"/forgot-password"} element={<ForgotPassword/>}/>
+                      <Route path={"/reset-password/:token"} element={<ResetPassword/>}/>
                   </Routes>
               </div>
           </div>

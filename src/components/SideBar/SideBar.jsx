@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import './SideBar.css';
 import { useUser } from "../../context/UserContext";
 
@@ -20,13 +20,20 @@ const SideBar = () => {
             setIsHovered(false);
         }
     }
-    const { user } = useUser();
+    const { user,setUser } = useUser();
 
     const toggleSidebar = () => setIsOpen(!isOpen);
     const {pathname}=useLocation();
+    const navigate=useNavigate();
+    const logOutHandle=()=>{
+        localStorage.setItem("token","")
+        setUser(null);
+        navigate("/signIn")
+    }
+    const pagesWithOutSideBar=["signIn","signUp","forgot-password"]
     return (
         <>
-            {!pathname.includes("signIn") && !pathname.includes("signUp") ?
+            {!pagesWithOutSideBar.includes(pathname.substring(1)) ?
             <>
                 {!isOpen && <div className="hamburger-menu" onClick={toggleSidebar}>
                     <i className="fas fa-bars"></i>
@@ -70,13 +77,19 @@ const SideBar = () => {
                                 <span>Credits</span>
                                 <span>{user?.credits}</span>
                             </div>
-                            <div style={{ marginBottom: "10px" }} className="plan">
+                            <div style={{marginBottom: "10px"}} className="plan">
                                 <span>Plan: </span>
                                 <span>{user?.subscription}</span>
                             </div>
                             <Link to={"/upgrade"}>
-                                <button className="upgrade-btn">Upgrade Plan</button>
+                                <button  className="upgrade-btn mb-2">Upgrade Plan</button>
                             </Link>
+                            <button
+                                onClick={logOutHandle}
+                                className="bg-secondary w-full hover:bg-secondaryDark
+                                 text-white font-bold py-2 px-4 border border-secondaryDark rounded">
+                                Log out
+                            </button>
                         </div>
                     )}
                 </aside>

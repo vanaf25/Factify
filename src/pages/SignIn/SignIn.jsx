@@ -45,7 +45,7 @@ const SignIn = () => {
     }
     return (
       <Form isLoading={isLoading}  globalError={loginError} submitButtonText={"Sign In"} fields={signInFields}
-            additionalLinks={[{href:"/signUp",text:"Create account"}]}
+            additionalLinks={[{href:"/signUp",text:"Create account"},{href:"/forgot-password",text:"Forgot password"}]}
             title={"Login to HighlightFactCheck"} onSubmit={onSubmit}/>
     );
 };

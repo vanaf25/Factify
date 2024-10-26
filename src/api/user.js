@@ -93,3 +93,21 @@ export const getAllUsers=async ()=>{
         return error
     }
 }
+export const requestResetPassword=async (data)=>{
+    try {
+        const response = await instance.post('user/request-reset-password',data);
+        return response.data
+    } catch (error) {
+        console.error('Error fetching data from instance:', error);
+        return error.response.data
+    }
+}
+export const resetPassword=async (data)=>{
+    try {
+        const response = await instance.post('user/reset-password',data);
+        return response.data
+    } catch (error) {
+        console.error('Error fetching data from instance:', error);
+        return error.response.data
+    }
+}
