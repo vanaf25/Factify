@@ -30,7 +30,7 @@ const SideBar = () => {
         setUser(null);
         navigate("/signIn")
     }
-    const pagesWithOutSideBar=["signIn","signUp","forgot-password"]
+    const pagesWithOutSideBar=["signIn","signUp","forgot-password","reset-password"];
     return (
         <>
             {!pagesWithOutSideBar.includes(pathname.substring(1)) ?

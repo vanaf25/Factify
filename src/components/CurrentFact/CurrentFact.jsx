@@ -33,33 +33,35 @@ const CurrentFact = ({data}) => {
             {data ? <div className="bg-[var(--card-bg)] p-8 rounded-[20px] shadow-lg  mb-2 fade-in" id="fact-check-result">
                 <h3>Fact Check Result:</h3>
                 <div className="result-item">
-                    <h4>Claim: {data.title}</h4>
-                    <p className={`rating ${String(data.truthStatus)}`}>
-                        Truth status:{String(data.truthStatus)}</p>
-                    <p className="severity high">Severity: {data.severity}</p>
-                    <p>Explanation: {data.explanation}</p>
-                    <div className="key-facts">
-                        <h4>Key Facts:</h4>
-                        <ul>
-                            {data?.keyFacts?.map(el => <li>{el}</li>)}
+                    {data.content ? <p>{data.content}</p>: <>
+                        <h4>Claim: {data.title}</h4>
+                        <p className={`rating ${String(data.truthStatus)}`}>
+                            Truth status:{String(data.truthStatus)}</p>
+                        <p className="severity high">Severity: {data.severity}</p>
+                        <p>Explanation: {data.explanation}</p>
+                        <div className="key-facts">
+                            <h4>Key Facts:</h4>
+                            <ul>
+                                {data?.keyFacts?.map(el => <li>{el}</li>)}
+                            </ul>
+                        </div>
+                        <ul className={"mb-1"}>
+                            {data.references?.map((el, index) => {
+                                return <li key={index}>
+                                    <a className={"text-primary"} target={"_blank"} rel='noopener noreferrer'
+                                       href={el?.url}>{el?.title}</a>
+                                </li>
+                            })}
                         </ul>
-                    </div>
-                    <ul className={"mb-1"}>
-                        {data.references?.map((el, index) => {
-                            return <li key={index}>
-                                <a className={"text-primary"} target={"_blank"} rel='noopener noreferrer'
-                                   href={el?.url}>{el?.title}</a>
-                            </li>
-                        })}
-                    </ul>
-                    <button
-                        className="cursor-pointer text-primary text-[35px] transition-opacity duration-300 hover:opacity-70"
-                        onClick={handleCopy}
-                    >
-                        <FaCopy/>
-                    </button>
+                        <button
+                            className="cursor-pointer text-primary text-[35px] transition-opacity duration-300 hover:opacity-70"
+                            onClick={handleCopy}
+                        >
+                            <FaCopy/>
+                        </button>
+                    </>}
                 </div>
-            </div>:""}
+            </div> : ""}
         </>
     );
 };
