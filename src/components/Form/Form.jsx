@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 const ReusableForm = ({ title, fields, onSubmit,
                           globalError,isLoading,
                           submitButtonText = 'Submit',
-                          additionalLinks=[],resetForm,defaultValues }) => {
+                          additionalLinks=[],resetForm,defaultValues,customWidth }) => {
     const { register, handleSubmit
         , formState: { errors }, reset } = useForm({
         defaultValues:defaultValues
@@ -23,7 +23,7 @@ const ReusableForm = ({ title, fields, onSubmit,
         <div className="flex w-full  justify-center items-center   ">
             <form
                 onSubmit={handleSubmit(handleFormSubmit)}
-                className="bg-white  rounded-card shadow-card p-8 w-full max-w-md"
+                className={`bg-white  rounded-card shadow-card p-8 w-full ${customWidth ? "max-w-[700px]":"max-w-md"}`}
             >
                 <h2 className="text-2xl font-bold text-primary  mb-6 text-center">{title}</h2>
 

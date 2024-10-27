@@ -53,10 +53,12 @@ const Settings = () => {
         func()
     }, []);
     return (
-        <>
-            {isSettingsLoading ? <Loader/>:   <Form isLoading={isSubmitting} onSubmit={onSubmit}
+        <div className={"w-full"}>
+            {isSettingsLoading ? <Loader/>:   <Form
+                    customWidth={700}
+                isLoading={isSubmitting} onSubmit={onSubmit}
                   fields={formFields} defaultValues={{email:user?.email,...settings}} submitButtonText={"update"}  title={"Settings"}/> }
-        </>
+        </div>
 
          );
 };

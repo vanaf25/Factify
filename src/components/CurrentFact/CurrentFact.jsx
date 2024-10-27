@@ -33,7 +33,8 @@ const CurrentFact = ({data}) => {
             {data ? <div className="bg-[var(--card-bg)] p-8 rounded-[20px] shadow-lg  mb-2 fade-in" id="fact-check-result">
                 <h3>Fact Check Result:</h3>
                 <div className="result-item">
-                    {data.content ? <p>{data.content}</p>: <>
+                    {data.content ? <pre style={{whiteSpace:"pre-wrap",
+                        wordBreak:"break-word",fontFamily:"'Roboto', sans-serif"}}>{data.content}</pre>: <>
                         <h4>Claim: {data.title}</h4>
                         <p className={`rating ${String(data.truthStatus)}`}>
                             Truth status:{String(data.truthStatus)}</p>
