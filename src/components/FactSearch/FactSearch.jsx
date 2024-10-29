@@ -13,7 +13,7 @@ import CheckFactLoader from "../global/CheckFactLoader/CheckFactLoader";
 import useAlert from "../../hooks/useAlert";
 import Alert from "../global/SuccessfulAlert/SuccesfullAlert";
 const FactSearch = () => {
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit,reset } = useForm()
     const [data,setData]=useState(false);
     const [isLoading,setIsLoading]=useState(false);
     const [histories,setHistories]=useState([])
@@ -29,8 +29,10 @@ const FactSearch = () => {
             return () => clearInterval(interval);
         } else if (progress === 100) {
             if (isFactCheckError) triggerAlert("Something went wrong!","some error occurred, try again")
+            else reset();
             setIsLoading(false);
             setProgress(0)
+
         }
     }, [progress]);
     const onSubmitHandle=async (data)=>{
@@ -76,16 +78,17 @@ const FactSearch = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-5 gap-2 w-full max-w-lg mx-auto">
                         <input
                             type="text"
+                            disabled={isLoading}
                             {...register("fact",{
                                 required: "This field is required",
                                 validate: value => value.trim() !== "" || "Input cannot consist only of spaces"
                             })}
                             placeholder="Enter something..."
-                            className="sm:col-span-4 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                            className="sm:col-span-4 p-2 disabled:cursor-not-allowed disabled-opacity-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                         />
                         <button
                             disabled={isLoading || user.credits===0}
-                            className={`${isLoading ? 'cursor-not-allowed bg-primary-light opacity-50' : ''} col-span-1 bg-secondary text-white py-2 px-4 rounded-md hover:bg-primary-dark transition duration-300`}>
+                            className={`${isLoading ? 'cursor-not-allowed hover:bg-secondary  opacity-50' : 'hover:bg-primary-dark'} col-span-1 bg-secondary text-white py-2 px-4 rounded-md transition duration-300`}>
                             {isLoading ? "checking...":"Check"}
                         </button>
                     </div>
