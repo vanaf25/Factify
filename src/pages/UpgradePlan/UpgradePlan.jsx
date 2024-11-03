@@ -110,7 +110,7 @@ const UpgradePlan = () => {
             <Alert show={show} mainText={mainText} text={text} onClose={onClose}/>
             {/* Header */}
             <p>Your current plain is:{user.subscription}</p>
-            <p>Plan Type:{user.subscriptionType}</p>
+            <p>Plan Type:{user.subscriptionType || "month"}</p>
             <div className="w-full max-w-4xl flex justify-between items-center mb-8">
                 <h2 className="text-3xl font-semibold text-[#FFA500]">Upgrade Your Plan</h2>
                 <div>
