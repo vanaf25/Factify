@@ -6,8 +6,58 @@ import {applyLtdCode} from "../../api/ltdCode";
 import useAlert from "../../hooks/useAlert";
 import Alert from "../../components/global/SuccessfulAlert/SuccesfullAlert";
 import {useUser} from "../../context/UserContext";
+import {Link} from "react-router-dom";
+const plans = [
+    {
+        name: "Starter Plan",
+        link:"starter",
+        price: 1,
+        credits: "10 Credits",
+        checksPerMinute: "5 Checks Per Minute",
+        features: [
+            "Advanced Algorithm Analysis",
+            "Comprehensive Explanations (200-300 words)",
+            "Multi-Source Verification",
+            "Clear Ratings & Severity Assessment",
+            "Continuous Learning",
+            "Secure Authentication",
+            "Priority Support"
+        ]
+    },
+    {
+        name: "Pro Plan",
+        price: 8,
+        credits: "100 Credits",
+        link:"pro",
+        checksPerMinute: "5 Checks Per Minute",
+        features: [
+            "Advanced Algorithm Analysis",
+            "Comprehensive Explanations (200-300 words)",
+            "Multi-Source Verification",
+            "Clear Ratings & Severity Assessment",
+            "Continuous Learning",
+            "Secure Authentication",
+            "Priority Support"
+        ]
+    },
+    {
+        name: "Business Plan",
+        link:"business",
+        price: 15,
+        credits: "500 Credits",
+        checksPerMinute: "5 Checks Per Minute",
+        features: [
+            "Advanced Algorithm Analysis",
+            "Comprehensive Explanations (200-300 words)",
+            "Multi-Source Verification",
+            "Clear Ratings & Severity Assessment",
+            "Continuous Learning",
+            "Secure Authentication",
+            "Priority Support"
+        ]
+    }
+];
 const UpgradePlan = () => {
-    // State to manage popup visibility
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isApplying,setIsApplying]=useState(false)
     const [error,setError]=useState("")
@@ -57,8 +107,10 @@ const UpgradePlan = () => {
 
     return (
         <main className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
-            <Alert show={show} mainText={mainText} text={text} onClose={onClose} />
+            <Alert show={show} mainText={mainText} text={text} onClose={onClose}/>
             {/* Header */}
+            <p>Your current plain is:{user.subscription}</p>
+            <p>Plan Type:{user.subscriptionType}</p>
             <div className="w-full max-w-4xl flex justify-between items-center mb-8">
                 <h2 className="text-3xl font-semibold text-[#FFA500]">Upgrade Your Plan</h2>
                 <div>
@@ -78,7 +130,7 @@ const UpgradePlan = () => {
                 <span className="toggle-label">Monthly</span>
                 <label className="toggle-switch">
                     <input checked={isCheckBoxChecked}
-                           onChange={()=>setIsCheckboxChecked(prevState =>!prevState )}
+                           onChange={() => setIsCheckboxChecked(prevState => !prevState)}
                            type="checkbox" id="toggleButton"/>
                     <span className="slider"></span>
                 </label>
@@ -90,67 +142,26 @@ const UpgradePlan = () => {
                 {/* Grid Layout */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {/* Starter Plan */}
-                    <div className="plan border border-white rounded-lg p-6 flex flex-col">
-                        <h3 className="text-2xl font-semibold text-[#FFA500] mb-4">Starter Plan</h3>
-                        <div className="option-price text-3xl font-bold text-white mb-4">$1{isCheckBoxChecked ? 0 :""}</div>
-                        <ul className="text-white mb-6 flex-grow">
-                            <li className="mb-2">10 Credits</li>
-                            <li className="mb-2">5 Checks Per Minute</li>
-                            <li className="mb-2">Advanced Algorithm Analysis</li>
-                            <li className="mb-2">Comprehensive Explanations (200-300 words)</li>
-                            <li className="mb-2">Multi-Source Verification</li>
-                            <li className="mb-2">Clear Ratings & Severity Assessment</li>
-                            <li className="mb-2">Continuous Learning</li>
-                            <li className="mb-2">Secure Authentication</li>
-                            <li className="mb-2">Priority Support</li>
-                        </ul>
-                        <button
-                            className="mt-auto bg-[#FFA500] text-white py-2 rounded hover:bg-[#e59400] transition-colors">
-                            Subscribe Now
-                        </button>
-                    </div>
-
-                    {/* Pro Plan */}
-                    <div className="plan border border-white rounded-lg p-6 flex flex-col">
-                        <h3 className="text-2xl font-semibold text-[#FFA500] mb-4">Pro Plan</h3>
-                        <div className="option-price text-3xl font-bold text-white mb-4">$8{isCheckBoxChecked ? 0 :""}</div>
-                        <ul className="text-white mb-6 flex-grow">
-                            <li className="mb-2">100 Credits</li>
-                            <li className="mb-2">5 Checks Per Minute</li>
-                            <li className="mb-2">Advanced Algorithm Analysis</li>
-                            <li className="mb-2">Comprehensive Explanations (200-300 words)</li>
-                            <li className="mb-2">Multi-Source Verification</li>
-                            <li className="mb-2">Clear Ratings & Severity Assessment</li>
-                            <li className="mb-2">Continuous Learning</li>
-                            <li className="mb-2">Secure Authentication</li>
-                            <li className="mb-2">Priority Support</li>
-                        </ul>
-                        <button
-                            className="mt-auto bg-[#FFA500] text-white py-2 rounded hover:bg-[#e59400] transition-colors">
-                            Subscribe Now
-                        </button>
-                    </div>
-
-                    {/* Business Plan */}
-                    <div className="plan border border-white rounded-lg p-6 flex flex-col">
-                        <h3 className="text-2xl font-semibold text-[#FFA500] mb-4">Business Plan</h3>
-                        <div className="option-price text-3xl font-bold text-white mb-4">$15{isCheckBoxChecked ? 0 :""}</div>
-                        <ul className="text-white mb-6 flex-grow">
-                            <li className="mb-2">500 Credits</li>
-                            <li className="mb-2">5 Checks Per Minute</li>
-                            <li className="mb-2">Advanced Algorithm Analysis</li>
-                            <li className="mb-2">Comprehensive Explanations (200-300 words)</li>
-                            <li className="mb-2">Multi-Source Verification</li>
-                            <li className="mb-2">Clear Ratings & Severity Assessment</li>
-                            <li className="mb-2">Continuous Learning</li>
-                            <li className="mb-2">Secure Authentication</li>
-                            <li className="mb-2">Priority Support</li>
-                        </ul>
-                        <button
-                            className="mt-auto bg-[#FFA500] text-white py-2 rounded hover:bg-[#e59400] transition-colors">
-                            Subscribe Now
-                        </button>
-                    </div>
+                    {plans.map((plan, index) => (
+                        <Link to={`/upgrade/pay/${plan.link}?type=${isCheckBoxChecked ? "year" : "month"}`}>
+                            <div key={index} className="plan border border-white rounded-lg p-6 flex flex-col">
+                                <h3 className="text-2xl font-semibold text-[#FFA500] mb-4">{plan.name}</h3>
+                                <div
+                                    className="option-price text-3xl font-bold text-white mb-4">${plan.price}{isCheckBoxChecked ? 0 : ""}</div>
+                                <ul className="text-white mb-6 flex-grow">
+                                    <li className="mb-2">{plan.credits}</li>
+                                    <li className="mb-2">{plan.checksPerMinute}</li>
+                                    {plan.features.map((feature, featureIndex) => (
+                                        <li key={featureIndex} className="mb-2">{feature}</li>
+                                    ))}
+                                </ul>
+                                <button
+                                    className="mt-auto bg-[#FFA500] text-white py-2 rounded hover:bg-[#e59400] transition-colors">
+                                    Subscribe Now
+                                </button>
+                            </div>
+                        </Link>
+                    ))}
 
                     {/* Enterprise Plan */}
                     <div className="col-span-1 md:col-span-3 plan border border-white rounded-lg p-6 flex flex-col">
@@ -187,7 +198,8 @@ const UpgradePlan = () => {
                             className="bg-[#2C3E50] p-8 rounded-lg w-full max-w-sm shadow-lg relative"
                             onClick={handlePopupClick} // Prevent closing on clicking inside the popup
                         >
-                           <Form isLoading={isApplying} globalError={error}   fields={popupFields} title={"Apply ltd Code"} onSubmit={onSubmitPopup}  submitButtonText={"Apply Code"}/>
+                            <Form isLoading={isApplying} globalError={error} fields={popupFields}
+                                  title={"Apply ltd Code"} onSubmit={onSubmitPopup} submitButtonText={"Apply Code"}/>
                         </div>
                     </div>
                 </>

@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import './SideBar.css';
 import { useUser } from "../../context/UserContext";
-
+function capitalizeFirstLetter(str) {
+    if (str.length === 0) return str; // Check for empty string
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
 const SideBar = () => {
     const [isHovered, setIsHovered] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -79,7 +82,7 @@ const SideBar = () => {
                             </div>
                             <div style={{marginBottom: "10px"}} className="plan">
                                 <span>Plan: </span>
-                                <span>{user?.subscription}</span>
+                                <span>{capitalizeFirstLetter(user?.subscription)}({(user.subscriptionType || "m2onth")}) Plan</span>
                             </div>
                             <Link to={"/upgrade"}>
                                 <button  className="upgrade-btn mb-2">Upgrade Plan</button>
