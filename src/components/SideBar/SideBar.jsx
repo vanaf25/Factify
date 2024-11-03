@@ -82,7 +82,7 @@ const SideBar = () => {
                             </div>
                             <div style={{marginBottom: "10px"}} className="plan">
                                 <span>Plan: </span>
-                                <span>{capitalizeFirstLetter(user?.subscription)}({(user.subscriptionType || "m2onth")}) Plan</span>
+                                <span>{capitalizeFirstLetter(user?.subscription)} Plan</span>
                             </div>
                             <Link to={"/upgrade"}>
                                 <button  className="upgrade-btn mb-2">Upgrade Plan</button>
