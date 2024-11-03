@@ -26,12 +26,12 @@ const CheckoutForm = () => {
         }
         if(user.subscription===id) navigate("/upgrade");
     }, [id]);
-    const [errorMessage, setErrorMessage] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null)
+    const [isLoading,setIsLoading]=useState(false)
     const { show, mainText, text, triggerAlert, onClose } = useAlert();
     const handleSubmit = async (event) => {
-
         event.preventDefault();
-
+        setIsLoading(true)
         console.log('elements:',elements);
         if (elements == null) {
             return;
@@ -62,7 +62,10 @@ const CheckoutForm = () => {
             setUser({...user,subscription:id,credits:user.credits+plans[id]})
             navigate("/");*/
             const confirm = await stripe.confirmCardPayment(clientSecret);
-            if (confirm.error)  triggerAlert(`Something went wrong!`,"","error")
+            if (confirm.error){
+                triggerAlert(`Something went wrong!`,"","error")
+                setIsLoading(false)
+            }
             else{
                 triggerAlert(`Plan was successfully activated!`,`You will get ${plans[id]} credits every month`);
                 setUser({...user,subscription:id,credits:user.credits+plans[id]})
@@ -78,8 +81,8 @@ const CheckoutForm = () => {
                 <CardElement/>
                 <button type="submit"
                         className={"bg-primary mt-4  text-white py-2 text-[20px] transition duration-500 ease-in-out hover:bg-primary-dark w-full"}
-                        disabled={!stripe || !elements}>
-                    Pay
+                        disabled={!stripe || !elements || isLoading }>
+                    {isLoading ? "Processing...":"Pay"}
                 </button>
                 {/* Show error message to your customers */}
                 {errorMessage && <div>{errorMessage}</div>}
