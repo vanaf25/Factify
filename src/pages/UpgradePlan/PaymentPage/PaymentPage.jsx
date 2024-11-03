@@ -21,10 +21,10 @@ const CheckoutForm = () => {
     const navigate=useNavigate();
     const {setUser,user} =useUser()
     useEffect(() => {
-        if(id!=="pro" && id!=="business"){
+        if(id!=="pro" && id!=="business"  && id!=="starter"){
             navigate("/upgrade");
         }
-        if(user.subscription===id) navigate("/upgrade");
+        if(user.subscription===id && type===user.subscriptionType) navigate("/upgrade");
     }, [id]);
     const [errorMessage, setErrorMessage] = useState(null)
     const [isLoading,setIsLoading]=useState(false)
@@ -51,6 +51,7 @@ const CheckoutForm = () => {
         console.log('paymentMethod:',paymentMethod);
         const res = await basicPayment({plan:id,type:type,paymentMethod: paymentMethod.id,});
         const plans={
+            starter:10,
             pro:100,
             business:150
         }
