@@ -110,7 +110,9 @@ const UpgradePlan = () => {
       const res= await cancelSubscription()
         if(res.message==="cancelled successfully!"){
             triggerAlert("cancelled successfully!");
-            setUser({...user,subscription:"",type:""});
+            if(user.subscriptionType==="month"){
+                setUser({...user,subscription:"",subscriptionType:""});
+            }
         }
         setIsCanceling(false);
     }
@@ -120,9 +122,13 @@ const UpgradePlan = () => {
             <Alert show={show} mainText={mainText} text={text} onClose={onClose}/>
             {/* Header */}
             <div>
-                <p>Your current plain is:{user.subscription}</p>
-                <p className={"mb-2"}>Plan Type:{user.subscriptionType || "month"}</p>
-                {user.subscription &&  <button
+                {!user.subscription ? <p>You don't activated plan yet</p>:
+                    <>
+                        <p>Your current plain is:{user.subscription}</p>
+                        <p className={"mb-2"}>Plan Type:{user.subscriptionType}</p>
+                    </>
+                }
+                {user.subscription && <button
                     disabled={isCanceling}
                     onClick={cancelSubscriptionHandler}
                     className="px-4 py-2
