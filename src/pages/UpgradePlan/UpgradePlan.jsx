@@ -7,6 +7,7 @@ import useAlert from "../../hooks/useAlert";
 import Alert from "../../components/global/SuccessfulAlert/SuccesfullAlert";
 import {useUser} from "../../context/UserContext";
 import {Link} from "react-router-dom";
+import {cancelSubscription} from "../../api/stripe";
 const plans = [
     {
         name: "Starter Plan",
@@ -103,14 +104,34 @@ const UpgradePlan = () => {
             },
         },
     ];
+    const [isCanceling,setIsCanceling]=useState(false)
+    const cancelSubscriptionHandler=async ()=>{
+        setIsCanceling(true);
+      const res= await cancelSubscription()
+        if(res.message==="cancelled successfully!"){
+            triggerAlert("cancelled successfully!");
+            setUser({...user,subscription:"",type:""});
+        }
+        setIsCanceling(false);
+    }
         const [isCheckBoxChecked,setIsCheckboxChecked]=useState(false);
-
     return (
         <main className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
             <Alert show={show} mainText={mainText} text={text} onClose={onClose}/>
             {/* Header */}
-            <p>Your current plain is:{user.subscription}</p>
-            <p>Plan Type:{user.subscriptionType || "month"}</p>
+            <div>
+                <p>Your current plain is:{user.subscription}</p>
+                <p className={"mb-2"}>Plan Type:{user.subscriptionType || "month"}</p>
+                {user.subscription &&  <button
+                    disabled={isCanceling}
+                    onClick={cancelSubscriptionHandler}
+                    className="px-4 py-2
+                     text-white bg-red-500 hover:bg-red-600 rounded-md
+                      focus:outline-none focus:ring-2 focus:ring-red-400">
+                    {isCanceling ? "Cancelilng...":"cancel"}
+                </button>}
+            </div>
+
             <div className="w-full max-w-4xl flex justify-between items-center mb-8">
                 <h2 className="text-3xl font-semibold text-[#FFA500]">Upgrade Your Plan</h2>
                 <div>
@@ -143,12 +164,36 @@ const UpgradePlan = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {/* Starter Plan */}
                     {plans.map((plan, index) => (
-                        <Link to={`/upgrade/pay/${plan.link}?type=${isCheckBoxChecked ? "year" : "month"}`}>
-                            <div key={index} className="plan border border-white rounded-lg p-6 flex flex-col">
-                                <h3 className="text-2xl font-semibold text-[#FFA500] mb-4">{plan.name}</h3>
+                        <Link
+                            to={user.subscription.length ? "#" : `/upgrade/pay/${plan.link}?type=${isCheckBoxChecked ? "year" : "month"}`}
+                            className={user.subscription.length ? "pointer-events-none" : ""}
+                        >
+                            <div
+                                key={index}
+                                className={`plan border border-white rounded-lg p-6 flex flex-col ${
+                                    user.subscription.length ? "bg-gray-300 border-gray-400" : ""
+                                }`}
+                            >
+                                <h3
+                                    className={`text-2xl font-semibold ${
+                                        user.subscription.length ? "text-gray-500" : "text-[#FFA500]"
+                                    } mb-4`}
+                                >
+                                    {plan.name}
+                                </h3>
                                 <div
-                                    className="option-price text-3xl font-bold text-white mb-4">${plan.price}{isCheckBoxChecked ? 0 : ""}</div>
-                                <ul className="text-white mb-6 flex-grow">
+                                    className={`option-price text-3xl font-bold mb-4 ${
+                                        user.subscription.length ? "text-gray-500" : "text-white"
+                                    }`}
+                                >
+                                    ${plan.price}
+                                    {isCheckBoxChecked ? 0 : ""}
+                                </div>
+                                <ul
+                                    className={`mb-6 flex-grow ${
+                                        user.subscription.length ? "text-gray-500" : "text-white"
+                                    }`}
+                                >
                                     <li className="mb-2">{plan.credits}</li>
                                     <li className="mb-2">{plan.checksPerMinute}</li>
                                     {plan.features.map((feature, featureIndex) => (
@@ -156,11 +201,18 @@ const UpgradePlan = () => {
                                     ))}
                                 </ul>
                                 <button
-                                    className="mt-auto bg-[#FFA500] text-white py-2 rounded hover:bg-[#e59400] transition-colors">
-                                    Subscribe Now
+                                    disabled={user.subscription.length}
+                                    className={`mt-auto py-2 rounded transition-colors ${
+                                        user.subscription.length
+                                            ? "bg-gray-400 text-gray-600 cursor-not-allowed"
+                                            : "bg-[#FFA500] text-white hover:bg-[#e59400]"
+                                    }`}
+                                >
+                                    {user.subscription.length ? "Subscribed" : "Subscribe Now"}
                                 </button>
                             </div>
                         </Link>
+
                     ))}
 
                     {/* Enterprise Plan */}
