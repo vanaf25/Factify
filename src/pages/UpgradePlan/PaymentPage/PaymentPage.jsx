@@ -66,7 +66,9 @@ const CheckoutForm = () => {
                 setIsLoading(false);
             } else {
                 triggerAlert(`Plan was successfully activated!`, `You will get ${plans[id]} credits every month`);
-                setUser({ ...user, subscription: id, credits: user.credits + plans[id] });
+                setUser({ ...user, subscription: id,
+                    subscriptionType:type,
+                    credits: user.credits + plans[id] });
                 navigate("/");
             }
         }
