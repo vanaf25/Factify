@@ -1,7 +1,6 @@
 .toggle-container {
     display: flex;
     align-items: center;
-    margin-bottom: 1rem;
 }
 
 .toggle-switch {
@@ -50,6 +49,5 @@ input:checked + .slider:before {
 }
 
 .toggle-label {
-    margin: 0 10px;
-    color: #000;
+    margin: 0 20px;
 }

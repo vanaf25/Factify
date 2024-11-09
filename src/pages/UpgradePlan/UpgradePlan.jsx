@@ -120,49 +120,49 @@ const UpgradePlan = () => {
     return (
         <main className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
             <Alert show={show} mainText={mainText} text={text} onClose={onClose}/>
-            {/* Header */}
-            <div>
-                {!user.subscription ? <p>You don't activated plan yet</p>:
-                    <>
-                        <p>Your current plain is:{user.subscription}</p>
-                        <p className={"mb-2"}>Plan Type:{user.subscriptionType}</p>
-                    </>
-                }
-                {user.subscription && <button
-                    disabled={isCanceling}
-                    onClick={cancelSubscriptionHandler}
-                    className="px-4 py-2
+            <div className={"w-full max-w-4xl  "}>
+                <div className="w-full  flex justify-between flex-wrap  items-center mb-8">
+                    {user.subscription ? <p>Your current plain is:{user.subscription}</p> :
+                        <p>You don't activated plan yet!</p>}
+                    {user.subscription && <button
+                        disabled={isCanceling}
+                        onClick={cancelSubscriptionHandler}
+                        className="px-5 py-2
                      text-white bg-red-500 hover:bg-red-600 rounded-md
                       focus:outline-none focus:ring-2 focus:ring-red-400">
-                    {isCanceling ? "Cancelilng...":"cancel"}
-                </button>}
-            </div>
-
-            <div className="w-full max-w-4xl flex justify-between items-center mb-8">
-                <h2 className="text-3xl font-semibold text-[#FFA500]">Upgrade Your Plan</h2>
-                <div>
-                    <button
-                        type="button"
-                        onClick={() => setIsPopupOpen(true)}
-                        className="bg-[#FFA500] px-4 py-2
+                        {isCanceling ? "Cancelilng..." : "cancel"}
+                    </button>}
+                </div>
+                <hr className="h-[2px] w-full mb-8 bg-white border-0"/>
+                <div className="w-full flex-wrap  flex justify-between items-center mb-8">
+                    <h2 className="text-3xl font-semibold mb-0 text-[#FFA500]">Upgrade Your Plan</h2>
+                    <div className={"flex flex-wrap  items-center"}>
+                        <div className="toggle-container font-medium">
+                            <span className={`toggle-label
+                             text-${user.subscriptionType==="month" ? "accent-blue-600":"gray-500"}`}>Monthly</span>
+                            <label className="toggle-switch">
+                                <input checked={isCheckBoxChecked}
+                                       onChange={() => setIsCheckboxChecked(prevState => !prevState)}
+                                       type="checkbox" id="toggleButton"/>
+                                <span className="slider"></span>
+                            </label>
+                            <span className={`toggle-label text-${user.subscriptionType==="year" ? "blue-600":"gray-500"}`}>Yearly</span>
+                        </div>
+                        <button
+                            type="button"
+                            onClick={() => setIsPopupOpen(true)}
+                            className="bg-[#FFA500] font-semibold py-1 px-2
                       text-white rounded hover:bg-[#e59400] transition-colors"
-                    >
-                        LTD
-                    </button>
+                        >
+                            LTD
+                        </button>
+                    </div>
                 </div>
             </div>
 
+
             {/* Toggle Switch */}
-            <div className="toggle-container">
-                <span className="toggle-label">Monthly</span>
-                <label className="toggle-switch">
-                    <input checked={isCheckBoxChecked}
-                           onChange={() => setIsCheckboxChecked(prevState => !prevState)}
-                           type="checkbox" id="toggleButton"/>
-                    <span className="slider"></span>
-                </label>
-                <span className="toggle-label">Yearly</span>
-            </div>
+
 
             {/* Upgrade Plans Container */}
             <div className="upgrade-container w-full max-w-4xl bg-[#2C3E50] p-6 rounded-lg">
