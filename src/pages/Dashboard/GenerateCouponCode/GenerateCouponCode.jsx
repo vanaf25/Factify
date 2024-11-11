@@ -1,8 +1,6 @@
-// src/components/GenerateCodesForm.jsx
 import React, {useEffect, useState} from 'react';
 import ReusableForm from "../../../components/Form/Form";
 import {generateCouponCode, getCouponsCode} from "../../../api/couponCode";
-import {AgGridReact} from "ag-grid-react";
 import FactSceleton from "../../../components/global/FactSceleton/FactSceleton";
 const CouponList = ({ coupons }) => {
     // Function to copy the code to clipboard
@@ -76,7 +74,9 @@ const CouponList = ({ coupons }) => {
         const func=async ()=>{
             setIsLoading(true)
            const res=await getCouponsCode()
-            setRowData(res);
+            if(Array.isArray(res)){
+                setRowData(res);
+            }
             setIsLoading(false)
         }
         func()
