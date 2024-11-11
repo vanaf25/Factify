@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Form from "../../components/Form/Form";
-import {register} from "../../api/auth";
-import {useNavigate} from "react-router-dom";
+import { register } from "../../api/auth";
+import { useNavigate } from "react-router-dom";
+
 const SignUp = () => {
     const userFormFields = [
         {
@@ -30,31 +31,38 @@ const SignUp = () => {
             label: "Confirm Password",
             placeholder: "Confirm your password",
             type: "password",
-            validation: { required: "Confirm Password is required" },
         },
     ];
-    const navigate=useNavigate();
-    const [error,setError]=useState()
-    const [isLoading,setIsLoading]=useState(false);
-    const onSubmit=async (data)=>{
-        console.log('data:',data);
+
+    const navigate = useNavigate();
+    const [error, setError] = useState();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const onSubmit = async (data) => {
+        console.log('data:', data);
         setIsLoading(true);
-        const res=await register({name:data.username,password:data.password,email:data.email})
-        if (res.id){
+        const res = await register({ name: data.username, password: data.password, email: data.email });
+
+        if (res.id) {
             navigate("/signIn");
+        } else if (res.code === "ERR_BAD_REQUEST") {
+            setError(res.response.data.message);
         }
-        if (res.code==="ERR_BAD_REQUEST"){
-            setError(res.response.data.message)
-        }
-        setIsLoading(false)
-        console.log('u:',res);
-    }
+
+        setIsLoading(false);
+        console.log('u:', res);
+    };
+
     return (
-        <Form globalError={error} isLoading={isLoading}  fields={userFormFields}
-              onSubmit={onSubmit}
-              submitButtonText={"Sign Up"}
-              additionalLinks={[{href:"/signIn",text:"Already have an account? Login here"}]}
-              title={"Sign Up for HighlightFactCheck"}/>
+        <Form
+            globalError={error}
+            isLoading={isLoading}
+            fields={userFormFields}
+            onSubmit={onSubmit}
+            submitButtonText={"Sign Up"}
+            additionalLinks={[{ href: "/signIn", text: "Already have an account? Login here" }]}
+            title={"Sign Up for HighlightFactCheck"}
+        />
     );
 };
 

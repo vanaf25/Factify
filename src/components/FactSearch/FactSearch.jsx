@@ -63,7 +63,6 @@ const FactSearch = () => {
             const facts=await getHistory();
             setHistories(facts)
             setIsHistoryLoading(false);
-            console.log('facts:',facts)
         }
         func();
     }, []);

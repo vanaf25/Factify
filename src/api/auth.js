@@ -20,7 +20,6 @@ export const login=async (body)=>{
 }
 export const verifyJwt=async (body)=>{
     try {
-        console.log(body);
         const response = await instance.post('auth/user',body);
         return response.data
     } catch (error) {

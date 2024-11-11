@@ -3,12 +3,16 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import './SideBar.css';
 import { useUser } from "../../context/UserContext";
 function capitalizeFirstLetter(str) {
-    if (str.length === 0) return str; // Check for empty string
+    if (str?.length === 0) return str;
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 const SideBar = () => {
     const [isHovered, setIsHovered] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const {pathname}=useLocation();
+    const navigate=useNavigate();
+    const { user,setUser} = useUser();
+    if(!user) return <></>
     const handleMouseEnter = () =>{
        if (window.innerWidth>600){
            setIsHovered(true);
@@ -23,11 +27,9 @@ const SideBar = () => {
             setIsHovered(false);
         }
     }
-    const { user,setUser } = useUser();
 
     const toggleSidebar = () => setIsOpen(!isOpen);
-    const {pathname}=useLocation();
-    const navigate=useNavigate();
+
     const logOutHandle=()=>{
         localStorage.setItem("token","")
         setUser(null);
@@ -73,6 +75,12 @@ const SideBar = () => {
                                 <span>Settings</span>
                             </div>
                         </Link>
+                        {user?.role==="admin" ? <Link to={"/dashboard/users"}>
+                            <div className="sidebar-item">
+                                <i className="fa fa-dashboard"></i>
+                                <span>Dashboard</span>
+                            </div>
+                        </Link>:"" }
                     </div>
                     {(isHovered || isOpen)  && (
                         <div className="sidebar-footer">
@@ -82,7 +90,9 @@ const SideBar = () => {
                             </div>
                             <div style={{marginBottom: "10px"}} className="plan">
                                 <span>Plan: </span>
-                                <span>{capitalizeFirstLetter(user?.subscription)} Plan</span>
+                                <span>
+                                    {user.subscription ?  `${capitalizeFirstLetter(user?.subscription)} Plan`:"No plan yet"}
+                                </span>
                             </div>
                             <Link to={"/upgrade"}>
                                 <button  className="upgrade-btn mb-2">Upgrade Plan</button>

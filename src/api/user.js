@@ -1,8 +1,7 @@
 import instance from "./api";
 
-export const getHistory=async (body)=>{
+export const getHistory=async ()=>{
     try {
-        console.log(body);
         const response = await instance.get('user/history',{
             headers:{
                 Authorization:`Bearer ${localStorage.getItem("token")}`
@@ -14,9 +13,8 @@ export const getHistory=async (body)=>{
         return error
     }
 }
-export const getFavoriteFacts=async (body)=>{
+export const getFavoriteFacts=async ()=>{
     try {
-        console.log(body);
         const response = await instance.get('user/favoriteFacts',{
             headers:{
                 Authorization:`Bearer ${localStorage.getItem("token")}`

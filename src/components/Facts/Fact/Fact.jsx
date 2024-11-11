@@ -20,13 +20,9 @@ const Fact = ({fact,setCurrentFact,onDeleteFact,isHistory,isFirst}) => {
         }
     };
     const [isFavorite,setIsFavorite]=useState(fact.isFavorite);
-    useEffect(() => {
-        console.log('fact:',isFavorite);
-    }, [isFavorite]);
     const [isLoading,setIsLoading]=useState(false)
     const [isDeleting,setIsDeleting]=useState(false);
     const toggleFavoriteHandle=async (fact)=>{
-        console.log('toggle!');
         if (!fact.isFavorite){
             setIsLoading(true)
             await addToFavorite(fact._id)
@@ -40,9 +36,6 @@ const Fact = ({fact,setCurrentFact,onDeleteFact,isHistory,isFirst}) => {
             setIsLoading(false)
         }
     }
-    useEffect(() => {
-        return ()=>console.log("Component deleted!");
-    }, []);
     const removeFactHandle=async (factId)=>{
         setIsDeleting(true)
         console.log('factId:',factId);

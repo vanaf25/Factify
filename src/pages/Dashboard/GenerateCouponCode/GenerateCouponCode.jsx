@@ -67,7 +67,8 @@ const CouponList = ({ coupons }) => {
     const [isLoading,setIsLoading]=useState(false)
         const handleFormSubmit = async (data) => {
         setIsSubmitting(true)
-        const res=await generateCouponCode({creditValue:Number(data.creditValue),couponAmount:+data.couponAmount})
+        const res=await generateCouponCode({creditValue:Number(data.creditValue),
+            couponAmount:+data.couponAmount})
         setIsSubmitting(false)
         setRowData(prevState =>([...prevState,...res]) )
     };

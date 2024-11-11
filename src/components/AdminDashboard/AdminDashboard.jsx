@@ -1,7 +1,10 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import './Styles.css'
+import {useUser} from "../../context/UserContext";
 const AdminDashboard = () => {
+    const {user}=useUser()
+    if(user?.role!=="admin") return <></>
     const currentRoute="/dashboard"
     const pages=[
         {href:`${currentRoute}/manageUsers`,text:"Manage Users"},

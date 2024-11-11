@@ -47,7 +47,9 @@ const ManageUsers = () => {
     useEffect(() => {
         const func = async () => {
             const res = await getAllUsers();
-            setRows(res);
+            if(Array.isArray(res)){
+                setRows(res);
+            }
         }
         func();
     }, []);
