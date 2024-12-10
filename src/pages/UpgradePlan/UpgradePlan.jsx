@@ -23,7 +23,11 @@ const plans = [
             "Continuous Learning",
             "Secure Authentication",
             "Priority Support"
-        ]
+        ],
+        paymentLinks:{
+            month:"test_9AQ7tPcOZcCK2NW28a",
+            year:"test_bIYcO9g1b1Y63S0dQQ"
+        }
     },
     {
         name: "Pro Plan",
@@ -39,7 +43,11 @@ const plans = [
             "Continuous Learning",
             "Secure Authentication",
             "Priority Support"
-        ]
+        ],
+        paymentLinks:{
+            month:"test_aEU9BX02dauC2NW7sv",
+            year:"test_00gcO92al7iq4W4148"
+        }
     },
     {
         name: "Business Plan",
@@ -55,7 +63,11 @@ const plans = [
             "Continuous Learning",
             "Secure Authentication",
             "Priority Support"
-        ]
+        ],
+        paymentLinks:{
+            month:"test_cN215r5mxcCK3S04gl",
+            year:"test_dR615reX7fOW1JS5kq"
+        }
     }
 ];
 const UpgradePlan = () => {
@@ -139,14 +151,15 @@ const UpgradePlan = () => {
                     <div className={"flex flex-wrap  items-center"}>
                         <div className="toggle-container font-medium">
                             <span className={`toggle-label
-                             text-${user.subscriptionType==="month" ? "accent-blue-600":"gray-500"}`}>Monthly</span>
+                             text-${user.subscriptionType === "month" ? "accent-blue-600" : "gray-500"}`}>Monthly</span>
                             <label className="toggle-switch">
                                 <input checked={isCheckBoxChecked}
                                        onChange={() => setIsCheckboxChecked(prevState => !prevState)}
                                        type="checkbox" id="toggleButton"/>
                                 <span className="slider"></span>
                             </label>
-                            <span className={`toggle-label text-${user.subscriptionType==="year" ? "blue-600":"gray-500"}`}>Yearly</span>
+                            <span
+                                className={`toggle-label text-${user.subscriptionType === "year" ? "blue-600" : "gray-500"}`}>Yearly</span>
                         </div>
                         <button
                             type="button"
@@ -161,9 +174,6 @@ const UpgradePlan = () => {
             </div>
 
 
-            {/* Toggle Switch */}
-
-
             {/* Upgrade Plans Container */}
             <div className="upgrade-container w-full max-w-4xl bg-[#2C3E50] p-6 rounded-lg">
                 {/* Grid Layout */}
@@ -171,8 +181,10 @@ const UpgradePlan = () => {
                     {/* Starter Plan */}
                     {plans.map((plan, index) => (
                         <Link
-                            to={user.subscription.length ? "#" : `/upgrade/pay/${plan.link}?type=${isCheckBoxChecked ? "year" : "month"}`}
+                            to={`https://buy.stripe.com/${plan.paymentLinks[isCheckBoxChecked ? "year":"month"]}?prefilled_email=${user.email}`}
                             className={user.subscription.length ? "pointer-events-none" : ""}
+                            rel="noopener noreferrer"
+                            target={"_blank"}
                         >
                             <div
                                 key={index}
