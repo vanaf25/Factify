@@ -135,7 +135,11 @@ const UpgradePlan = () => {
             <Alert show={show} mainText={mainText} text={text} onClose={onClose}/>
             <div className={"w-full max-w-4xl  "}>
                 <div className="w-full  flex justify-between flex-wrap  items-center mb-8">
-                    {user.subscription ? <p>Your current plain is:{user.subscription} plan</p> :
+                    {user.subscription ?
+                        <div>
+                            <p>Your current plain is:{user.subscription} plan</p>
+                            <p>Billing:{user.subscriptionType}ly</p>
+                        </div> :
                         <p>You don't activated plan yet!</p>}
                     {user.subscription && <button
                         disabled={isCanceling || !user.subscriptionIsActive }
