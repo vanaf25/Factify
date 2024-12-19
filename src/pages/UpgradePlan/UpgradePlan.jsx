@@ -126,6 +126,7 @@ const UpgradePlan = () => {
             if(user.subscriptionType==="month"){
                 setUser({...user,subscription:"",subscriptionType:""});
             }
+            else setUser({...user,subscriptionIsActive:false})
         }
         setIsCanceling(false);
     }
@@ -145,7 +146,7 @@ const UpgradePlan = () => {
                         disabled={isCanceling || !user.subscriptionIsActive }
                         onClick={cancelSubscriptionHandler}
                         className="px-5 py-2
-                     text-white bg-red-500 hover:bg-red-600 rounded-md
+                     text-white bg-red-500 disabled:hover:bg-red-500 hover:bg-red-600  rounded-md
                       focus:outline-none focus:ring-2 focus:ring-red-400">
                         {isCanceling ? "Cancelilng..." : "cancel"}
                     </button>}
