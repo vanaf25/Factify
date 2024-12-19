@@ -76,6 +76,7 @@ const UpgradePlan = () => {
     const [error,setError]=useState("")
     const { show, mainText, text, triggerAlert, onClose } = useAlert();
     const {setUser,user} =useUser()
+    console.log('user:',user);
     const onSubmitPopup = async (data) => {
         console.log('Popup Form Data:', data);
         setIsApplying(true)
@@ -137,7 +138,7 @@ const UpgradePlan = () => {
                     {user.subscription ? <p>Your current plain is:{user.subscription} plan</p> :
                         <p>You don't activated plan yet!</p>}
                     {user.subscription && <button
-                        disabled={isCanceling}
+                        disabled={isCanceling || !user.subscriptionIsActive }
                         onClick={cancelSubscriptionHandler}
                         className="px-5 py-2
                      text-white bg-red-500 hover:bg-red-600 rounded-md
