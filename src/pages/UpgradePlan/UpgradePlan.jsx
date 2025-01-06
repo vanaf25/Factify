@@ -14,10 +14,9 @@ const plans = [
         link:"starter",
         price: 1,
         credits: "10 Credits",
-        checksPerMinute: "5 Checks Per Minute",
         features: [
             "Advanced Algorithm Analysis",
-            "Comprehensive Explanations (200-300 words)",
+            "Comprehensive Explanations (50-150 words)",
             "Multi-Source Verification",
             "Clear Ratings & Severity Assessment",
             "Continuous Learning",
@@ -34,10 +33,9 @@ const plans = [
         price: 8,
         credits: "100 Credits",
         link:"pro",
-        checksPerMinute: "5 Checks Per Minute",
         features: [
             "Advanced Algorithm Analysis",
-            "Comprehensive Explanations (200-300 words)",
+            "Comprehensive Explanations (50-150 words)",
             "Multi-Source Verification",
             "Clear Ratings & Severity Assessment",
             "Continuous Learning",
@@ -54,10 +52,9 @@ const plans = [
         link:"business",
         price: 15,
         credits: "500 Credits",
-        checksPerMinute: "5 Checks Per Minute",
         features: [
             "Advanced Algorithm Analysis",
-            "Comprehensive Explanations (200-300 words)",
+            "Comprehensive Explanations (50-150 words)",
             "Multi-Source Verification",
             "Clear Ratings & Severity Assessment",
             "Continuous Learning",
@@ -219,7 +216,6 @@ const UpgradePlan = () => {
                                     }`}
                                 >
                                     <li className="mb-2">{plan.credits}</li>
-                                    <li className="mb-2">{plan.checksPerMinute}</li>
                                     {plan.features.map((feature, featureIndex) => (
                                         <li key={featureIndex} className="mb-2">{feature}</li>
                                     ))}
