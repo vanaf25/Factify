@@ -24,8 +24,8 @@ const plans = [
             "Priority Support"
         ],
         paymentLinks:{
-            month:"test_9AQ7tPcOZcCK2NW28a",
-            year:"test_bIYcO9g1b1Y63S0dQQ"
+            month:"bIYaEJbpu3VOgMMdQR",
+            year:"cN27sx516eAs2VW8wC"
         }
     },
     {
@@ -43,8 +43,8 @@ const plans = [
             "Priority Support"
         ],
         paymentLinks:{
-            month:"test_aEU9BX02dauC2NW7sv",
-            year:"test_00gcO92al7iq4W4148"
+            month:"3csfZ3fFK0JCeEE7su",
+            year:"dR63chalqcskdAAcMR"
         }
     },
     {
@@ -62,8 +62,8 @@ const plans = [
             "Priority Support"
         ],
         paymentLinks:{
-            month:"test_cN215r5mxcCK3S04gl",
-            year:"test_dR615reX7fOW1JS5kq"
+            month:"3csdQV2SY7805449AD",
+            year:"aEU1498dibog1RS148"
         }
     }
 ];
