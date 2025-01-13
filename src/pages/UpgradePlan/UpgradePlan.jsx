@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import './UpgradePlan.css'
 import Form from "../../components/Form/Form";
@@ -8,6 +7,7 @@ import Alert from "../../components/global/SuccessfulAlert/SuccesfullAlert";
 import {useUser} from "../../context/UserContext";
 import {Link} from "react-router-dom";
 import {cancelSubscription} from "../../api/stripe";
+/*
 const plans = [
     {
         name: "Starter Plan",
@@ -64,6 +64,66 @@ const plans = [
         paymentLinks:{
             month:"3csdQV2SY7805449AD",
             year:"aEU1498dibog1RS148"
+        }
+    }
+];
+*/
+const plans = [
+    {
+        name: "Starter Plan",
+        link:"starter",
+        price: 1,
+        credits: "10 Credits",
+        features: [
+            "Advanced Algorithm Analysis",
+            "Comprehensive Explanations (50-150 words)",
+            "Multi-Source Verification",
+            "Clear Ratings & Severity Assessment",
+            "Continuous Learning",
+            "Secure Authentication",
+            "Priority Support"
+        ],
+        paymentLinks:{
+            month:"test_9AQ7tPcOZcCK2NW28a",
+            year:"test_bIYcO9g1b1Y63S0dQQ"
+        }
+    },
+    {
+        name: "Pro Plan",
+        price: 8,
+        credits: "100 Credits",
+        link:"pro",
+        features: [
+            "Advanced Algorithm Analysis",
+            "Comprehensive Explanations (50-150 words)",
+            "Multi-Source Verification",
+            "Clear Ratings & Severity Assessment",
+            "Continuous Learning",
+            "Secure Authentication",
+            "Priority Support"
+        ],
+        paymentLinks:{
+            month:"test_aEU9BX02dauC2NW7sv",
+            year:"test_00gcO92al7iq4W4148"
+        }
+    },
+    {
+        name: "Business Plan",
+        link:"business",
+        price: 15,
+        credits: "500 Credits",
+        features: [
+            "Advanced Algorithm Analysis",
+            "Comprehensive Explanations (50-150 words)",
+            "Multi-Source Verification",
+            "Clear Ratings & Severity Assessment",
+            "Continuous Learning",
+            "Secure Authentication",
+            "Priority Support"
+        ],
+        paymentLinks:{
+            month:"test_cN215r5mxcCK3S04gl",
+            year:"test_dR615reX7fOW1JS5kq"
         }
     }
 ];
