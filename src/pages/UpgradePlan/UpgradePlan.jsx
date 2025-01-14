@@ -7,7 +7,6 @@ import Alert from "../../components/global/SuccessfulAlert/SuccesfullAlert";
 import {useUser} from "../../context/UserContext";
 import {Link} from "react-router-dom";
 import {cancelSubscription} from "../../api/stripe";
-/*
 const plans = [
     {
         name: "Starter Plan",
@@ -67,7 +66,7 @@ const plans = [
         }
     }
 ];
-*/
+/*
 const plans = [
     {
         name: "Starter Plan",
@@ -127,6 +126,7 @@ const plans = [
         }
     }
 ];
+*/
 const UpgradePlan = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isApplying,setIsApplying]=useState(false)
