@@ -4,7 +4,6 @@ import './FactSearch.css'
 import {getFact} from "../../api/facts";
 import History from "../../pages/History/History";
 import {getHistory} from "../../api/user";
-import LoaderComponent from "../global/Loader/Loader";
 import CurrentFact from "../CurrentFact/CurrentFact";
 import LoaderSceleton from "../global/LoaderSceleton/LoaderSceleton";
 import {useUser} from "../../context/UserContext";
@@ -13,6 +12,7 @@ import CheckFactLoader from "../global/CheckFactLoader/CheckFactLoader";
 import useAlert from "../../hooks/useAlert";
 import Alert from "../global/SuccessfulAlert/SuccesfullAlert";
 const FactSearch = () => {
+    const { user,setUser } = useUser();
     const { register, handleSubmit,reset } = useForm()
     const [data,setData]=useState(false);
     const [isLoading,setIsLoading]=useState(false);
@@ -36,25 +36,27 @@ const FactSearch = () => {
         }
     }, [progress]);
     const onSubmitHandle=async (data)=>{
-        setIsLoading(true)
-        setData(null);
-        setIsFactCheckError(false);
-        setProgress(0);
-        setTimeout(() => {
-            setProgress(1); // Start progress after a delay
-        }, 100);
-        const resData=await getFact(data.fact)
-        if(resData._id){
-            setData(resData);
-            setUser(prevState=>({...prevState,credits:prevState.credits-1}))
-            setHistories(prevState =>{
-                const withoutLastElem=prevState.length===15 ?
-                    prevState.slice(0,prevState.length-1):prevState
-                return [resData,...withoutLastElem]
-            });
-        }
-        else{
-            setIsFactCheckError(true);
+        if(user.credits>0){
+            setIsLoading(true)
+            setData(null);
+            setIsFactCheckError(false);
+            setProgress(0);
+            setTimeout(() => {
+                setProgress(1);
+            }, 100);
+            const resData=await getFact(data.fact)
+            if(resData._id){
+                setData(resData);
+                setUser(prevState=>({...prevState,credits:prevState.credits-1}))
+                setHistories(prevState =>{
+                    const withoutLastElem=prevState.length===15 ?
+                        prevState.slice(0,prevState.length-1):prevState
+                    return [resData,...withoutLastElem]
+                });
+            }
+            else{
+                setIsFactCheckError(true);
+            }
         }
     }
     useEffect(() => {
@@ -66,7 +68,6 @@ const FactSearch = () => {
         }
         func();
     }, []);
-    const { user,setUser } = useUser();
     const onDeleteFact=(factId)=>setHistories(prevState =>prevState.filter(el=>el._id!==factId));
     return (
         <div>
@@ -77,7 +78,7 @@ const FactSearch = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-5 gap-2 w-full max-w-lg mx-auto">
                         <input
                             type="text"
-                            disabled={isLoading}
+                            disabled={isLoading || user.credits===0}
                             {...register("fact",{
                                 required: "This field is required",
                                 validate: value => value.trim() !== "" || "Input cannot consist only of spaces"
@@ -87,7 +88,7 @@ const FactSearch = () => {
                         />
                         <button
                             disabled={isLoading || user.credits===0}
-                            className={`${isLoading ? 'cursor-not-allowed hover:bg-secondary  opacity-50' : 'hover:bg-primary-dark'} col-span-1 bg-secondary text-white py-2 px-4 rounded-md transition duration-300`}>
+                            className={`${isLoading || user.credits===0 ? 'cursor-not-allowed hover:bg-secondary  opacity-50' : 'hover:bg-primary-dark'} col-span-1 bg-secondary text-white py-2 px-4 rounded-md transition duration-300`}>
                             {isLoading ? "checking...":"Check"}
                         </button>
                     </div>
