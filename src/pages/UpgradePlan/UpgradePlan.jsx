@@ -275,7 +275,7 @@ const UpgradePlan = () => {
                                         user.subscription.length ? "text-gray-500" : "text-white"
                                     }`}
                                 >
-                                    <li className="mb-2">{plan.credits}</li>
+                                    <li className="mb-2">{plan.credits} (renewed every month)</li>
                                     {plan.features.map((feature, featureIndex) => (
                                         <li key={featureIndex} className="mb-2">{feature}</li>
                                     ))}
@@ -299,12 +299,15 @@ const UpgradePlan = () => {
                     <div className="col-span-1 md:col-span-3 plan border border-white rounded-lg p-6 flex flex-col">
                         <h3 className="text-2xl font-semibold text-[#FFA500] mb-4">Enterprise Plan</h3>
                         <p className="text-white mb-6 flex-grow">
-                            Contact us for pricing and custom features tailored to your organization.
+                            Contact contactus@factifygpt.com for pricing and custom features tailored to your organization.
                         </p>
-                        <button
-                            className="mt-auto bg-[#FFA500] text-white py-2 rounded hover:bg-[#e59400] transition-colors">
-                            Contact Sales
-                        </button>
+                        <a  className={"d-block w-[100%]"} href="mailto:contactus@factifygpt.com">
+                            <button
+                                className="mt-auto w-[100%] d-block bg-[#FFA500] text-white py-2 rounded hover:bg-[#e59400] transition-colors">
+                                Contact Sales
+                            </button>
+                        </a>
+
                     </div>
                 </div>
             </div>
