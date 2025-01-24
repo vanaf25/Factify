@@ -50,7 +50,7 @@ const plans = [
         name: "Business Plan",
         link:"business",
         price: 15,
-        credits: "500 Credits",
+        credits: "300 Credits",
         features: [
             "Advanced Algorithm Analysis",
             "Comprehensive Explanations (50-150 words)",

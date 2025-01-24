@@ -5,14 +5,6 @@ export const getFact=async (fact)=>{
         const response = await instance.post('fact',{fact},{
             headers:{
                 Authorization:`Bearer ${localStorage.getItem("token")}`
-            },
-            onDownloadProgress:(progressEvent)=>{
-                const total = progressEvent.total; // Общий размер
-                const current = progressEvent.loaded;
-                if (total > 0) {
-                    const percentCompleted = Math.round((current / total) * 100); // Процент загрузки
-                    console.log(percentCompleted); // Обновляем прогресс
-                }
             }
         });
         return response.data
