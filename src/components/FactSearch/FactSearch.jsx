@@ -21,6 +21,7 @@ const FactSearch = () => {
     const [isFactCheckError,setIsFactCheckError]=useState(false);
     const { show, mainText, text, triggerAlert, onClose } = useAlert();
     const [isHistoryLoading,setIsHistoryLoading]=useState(false);
+    const [isResponseLoading,setIsResponseLoading]=useState(false);
     useEffect(() => {
         if (progress > 0 && progress < 100) {
             const interval = setInterval(() => {
@@ -28,11 +29,12 @@ const FactSearch = () => {
             }, 100);
             return () => clearInterval(interval);
         } else if (progress === 100) {
-            if (isFactCheckError) triggerAlert("Something went wrong!","some error occurred, try again")
-            else reset();
-            setIsLoading(false);
-            setProgress(0)
-
+            if(!isResponseLoading){
+                if (isFactCheckError) triggerAlert("Something went wrong!","some error occurred, try again")
+                else reset();
+                setIsLoading(false);
+                setProgress(0)
+            }
         }
     }, [progress]);
     const onSubmitHandle=async (data)=>{
@@ -41,10 +43,12 @@ const FactSearch = () => {
             setData(null);
             setIsFactCheckError(false);
             setProgress(0);
+            setIsResponseLoading(true);
             setTimeout(() => {
                 setProgress(1);
             }, 100);
             const resData=await getFact(data.fact)
+            setIsResponseLoading(false)
             if(resData._id){
                 setData(resData);
                 setUser(prevState=>({...prevState,credits:prevState.credits-1}))
