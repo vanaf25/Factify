@@ -11,7 +11,7 @@ const ManageUsers = () => {
     const [popupData, setPopupData] = useState(null); // State to control popup data
     const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control popup visibility
     const [deletingUser, setDeletingUser] = useState(null); // Track the user being deleted
-
+    console.log('rowData:',rowData);
     const columnDefs = [
         { headerName: 'Username', flex: 1, field: 'name' },
         { headerName: 'Email', flex: 2, field: 'email' },
@@ -38,14 +38,15 @@ const ManageUsers = () => {
         {
             headerName: 'Action', flex: 1, field: 'action', cellRenderer: (params) => (
                 <div>
-                    <button
+                    {params.data.role === "admin" ? <p>Admin</p>: <button
                         className={`bg-secondary w-full hover:bg-red-700 text-white font-bold 
-                            ${deletingUser === params.data._id ? "bg-gray-500 cursor-not-allowed" : ""}`}
-                        disabled={deletingUser === params.data._id} // Disable if currently deleting
+                            ${params.data.role === "admin" || deletingUser === params.data._id ? "bg-gray-500 cursor-not-allowed" : ""}`}
+                        disabled={params.data.role === "admin" || deletingUser === params.data._id} // Disable if currently deleting
                         onClick={() => handleDelete(params.data._id)}
                     >
-                        {deletingUser === params.data._id ? "Deleting..." : "Delete"}
-                    </button>
+                        {params.data.role === "admin" ? "Admin" : deletingUser === params.data._id ? "Deleting..." : "Delete"}
+                    </button>}
+
                 </div>
             ),
         },
@@ -62,7 +63,7 @@ const ManageUsers = () => {
     }, []);
 
     const handleDelete = async (id) => {
-        console.log('id:',id);
+        console.log('id:', id);
         setDeletingUser(id); // Set the username being deleted
         try {
             // Simulate API call or integrate your actual delete API logic here
