@@ -36,7 +36,7 @@ const FactSearch = () => {
                 setProgress(0)
             }
         }
-    }, [progress]);
+    }, [progress,isResponseLoading]);
     const onSubmitHandle=async (data)=>{
         if(user.credits>0){
             setIsLoading(true)

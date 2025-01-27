@@ -109,3 +109,21 @@ export const resetPassword=async (data)=>{
         return error.response.data
     }
 }
+export const deleteUser = async (userId) => {
+    try {
+        // Retrieve the Bearer token from localStorage
+        const token = localStorage.getItem("token");
+        // Make the DELETE request
+        const response = await instance.delete(`/user/${userId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        console.log("User deleted successfully:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error deleting user:", error.response?.data || error.message);
+        throw error;
+    }
+};

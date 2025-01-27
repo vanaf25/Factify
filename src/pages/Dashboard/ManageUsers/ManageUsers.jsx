@@ -3,14 +3,15 @@ import { AgGridReact } from "ag-grid-react";
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import './Customizing.css';
-import { getAllUsers } from "../../../api/user";
-import Form from "../../../components/Form/Form";
+import { getAllUsers,deleteUser } from "../../../api/user";
 import LtdPopup from "./LtdPopup";
 
 const ManageUsers = () => {
     const [rowData, setRows] = useState([]);
     const [popupData, setPopupData] = useState(null); // State to control popup data
     const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control popup visibility
+    const [deletingUser, setDeletingUser] = useState(null); // Track the user being deleted
+
     const columnDefs = [
         { headerName: 'Username', flex: 1, field: 'name' },
         { headerName: 'Email', flex: 2, field: 'email' },
@@ -37,26 +38,44 @@ const ManageUsers = () => {
         {
             headerName: 'Action', flex: 1, field: 'action', cellRenderer: (params) => (
                 <div>
-                    <button className={"bg-secondary w-full hover:bg-red-700 text-white font-bold"}
-                            onClick={() => handleDelete(params.data.username)}>Delete
+                    <button
+                        className={`bg-secondary w-full hover:bg-red-700 text-white font-bold 
+                            ${deletingUser === params.data._id ? "bg-gray-500 cursor-not-allowed" : ""}`}
+                        disabled={deletingUser === params.data._id} // Disable if currently deleting
+                        onClick={() => handleDelete(params.data._id)}
+                    >
+                        {deletingUser === params.data._id ? "Deleting..." : "Delete"}
                     </button>
                 </div>
             ),
         },
     ];
+
     useEffect(() => {
         const func = async () => {
             const res = await getAllUsers();
-            if(Array.isArray(res)){
+            if (Array.isArray(res)) {
                 setRows(res);
             }
         }
         func();
     }, []);
-    const handleDelete = (username) => {
-        console.log(`Delete user: ${username}`);
-        // Implement delete action (e.g., API call, updating state)
+
+    const handleDelete = async (id) => {
+        console.log('id:',id);
+        setDeletingUser(id); // Set the username being deleted
+        try {
+            // Simulate API call or integrate your actual delete API logic here
+            await deleteUser(id)
+            setRows((prevRows) => prevRows.filter(row => row._id !== id)); // Remove the user from the table
+        } catch (error) {
+            alert("Error deleting user!")
+            console.error(`Failed to delete user: ${id}`, error);
+        } finally {
+            setDeletingUser(null); // Reset deleting state
+        }
     };
+
     const handleOpenPopup = (data) => {
         setPopupData(data);  // Set the selected row's data
         setIsPopupOpen(true); // Show the popup
@@ -95,6 +114,7 @@ const ManageUsers = () => {
         link.click();
         document.body.removeChild(link);
     };
+
     const handleOverlayClick = () => {
         setIsPopupOpen(false);
     };
@@ -103,6 +123,7 @@ const ManageUsers = () => {
     const handlePopupClick = (event) => {
         event.stopPropagation();
     };
+
     return (
         <div className={"main-content"}>
             <div className={"flex justify-between"}>
