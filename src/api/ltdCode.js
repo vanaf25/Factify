@@ -26,6 +26,18 @@ export const applyLtdCode=async (code)=>{
         return error
     }
 }
+export const getLtdCode=async (code)=>{
+    try {
+        const response = await instance.get(`ltdCode/${code}`,{
+            headers:{
+                Authorization:`Bearer ${localStorage.getItem("token")}`
+            },
+        });
+        return response.data
+    } catch (error) {
+        return {message:error?.response?.data?.message,status:"error"}
+    }
+}
 export const getLtdCodesOfUser=async (userId)=>{
     try {
         const response = await instance.get(`ltdCode/coupons/${userId}`,{

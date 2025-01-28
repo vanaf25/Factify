@@ -9,6 +9,7 @@ const AdminDashboard = () => {
     const pages=[
         {href:`${currentRoute}/manageUsers`,text:"Manage Users"},
         {href:`${currentRoute}/LTD`,text:"Generate LTD Code"},
+        {href:`${currentRoute}/checkCode`,text:"Check LTD Code"},
         {href:`${currentRoute}/GenerateCouponCode`,text:"Generate Coupon Code"},
         {href:`${currentRoute}/settings`, text:"Settings"}]
     return (

@@ -22,6 +22,7 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import {Elements, PaymentElement} from "@stripe/react-stripe-js";
 import {loadStripe} from "@stripe/stripe-js";
+import CheckLTDCode from "./pages/Dashboard/CheckLTDCode/CheckLTDCode";
 const stripePromise = loadStripe('pk_test_51N5Q2gG7nspIT2aiGMQPYjnXZuocyjrbHdcgDOML86WQOz6g9kd2HpJJ7k5C4DxmICXKiUgLOB2frndaFVBpRkVA00m9f1OyXF');
 
 const options = {
@@ -59,6 +60,8 @@ function App() {
                         <Route path="/dashboard/GenerateCouponCode" element={<PrivateRoute role="admin"><GenerateCouponCode /></PrivateRoute>} />
                         <Route path="/dashboard/settings" element={<PrivateRoute role="admin"><DashboardSettings /></PrivateRoute>} />
                         <Route path="/dashboard/manageUsers" element={<PrivateRoute role="admin"><ManageUsers /></PrivateRoute>} />
+                        <Route path="/dashboard/checkCode" element={<PrivateRoute role="admin"><CheckLTDCode /></PrivateRoute>} />
+
                     </Routes>
                 </div>
                 </Elements>

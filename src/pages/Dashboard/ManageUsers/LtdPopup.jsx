@@ -19,7 +19,7 @@ const LtdPopup = ({handleOverlayClick,handlePopupClick,popupData}) => {
     }, [popupData]);
     const exportToCSV = () => {
         const csvData = codes.map(code => ({
-            code: code._id, // Rename to match desired header
+            code: code.code, // Rename to match desired header
             platformName: code.platform
         }));
 
