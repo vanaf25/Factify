@@ -4,9 +4,7 @@ import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
 import PrivateRoute from "./featured/PrivateRoute/PrivateRoute";
 import PublicRoute from "./featured/PublicRoute/PublicRoute";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { UserProvider, useUser } from "./context/UserContext";
-import { useEffect, useState } from "react";
-import { verifyJwt } from "./api/auth";
+import { UserProvider } from "./context/UserContext";
 import FactSearch from "./components/FactSearch/FactSearch";
 import SignIn from "./pages/SignIn/SignIn";
 import SignUp from "./pages/SignUp/SignUp";
@@ -21,11 +19,6 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import CheckLTDCode from "./pages/Dashboard/CheckLTDCode/CheckLTDCode";
 
-const options = {
-    mode: 'payment',
-    amount: 1099,
-    currency: 'usd',
-}
 function App() {
     const { pathname } = useLocation();
     return (

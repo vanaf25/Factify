@@ -2,7 +2,7 @@ import axios from "axios";
 const BASE_URL=`http://localhost:5000/`;
 export  const REMOTE_URL=`https://fast-check-psi.vercel.app/`
 const instance = axios.create({
-    baseURL: BASE_URL,
+    baseURL: REMOTE_URL,
     headers:{
         Authorization:`Bearer ${localStorage.getItem("token")}`
     },
