@@ -137,7 +137,7 @@ const UpgradePlan = () => {
     const onSubmitPopup = async (data) => {
         console.log('Popup Form Data:', data);
         setIsApplying(true)
-        const res= await applyLtdCode(data.code)
+        const res= await applyLtdCode(data.code,localStorage.getItem("token"))
         if (res.message==="Code redeemed"){
             setIsPopupOpen(false);
             setError("")

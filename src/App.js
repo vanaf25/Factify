@@ -16,14 +16,10 @@ import DashboardSettings from './pages/Dashboard/Settings/Settings';
 import ManageUsers from "./pages/Dashboard/ManageUsers/ManageUsers";
 import FavoriteFact from "./pages/FavoriteFact/FavoriteFact";
 import UpgradePlan from "./pages/UpgradePlan/UpgradePlan";
-import PaymentPage from "./pages/UpgradePlan/PaymentPage/PaymentPage";
 import Settings from "./pages/Settings/Settings";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
-import {Elements, PaymentElement} from "@stripe/react-stripe-js";
-import {loadStripe} from "@stripe/stripe-js";
 import CheckLTDCode from "./pages/Dashboard/CheckLTDCode/CheckLTDCode";
-const stripePromise = loadStripe('pk_test_51N5Q2gG7nspIT2aiGMQPYjnXZuocyjrbHdcgDOML86WQOz6g9kd2HpJJ7k5C4DxmICXKiUgLOB2frndaFVBpRkVA00m9f1OyXF');
 
 const options = {
     mode: 'payment',
@@ -40,7 +36,6 @@ function App() {
                 ) : (
                     <SideBar />
                 )}
-                <Elements options={options} stripe={stripePromise}>
                 <div className={`${pathname.includes("dashboard") ? "main-content dashboardContent" : "main-content"} w-full`}>
                     <Routes>
                         {/* Public Routes */}
@@ -64,7 +59,6 @@ function App() {
 
                     </Routes>
                 </div>
-                </Elements>
             </div>
         </UserProvider>
     );

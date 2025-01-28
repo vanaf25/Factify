@@ -13,13 +13,10 @@ export const generateLtdCode=async (body)=>{
         return error
     }
 }
-export const applyLtdCode=async (code)=>{
+export const applyLtdCode=async (code,token)=>{
     try {
-        const response = await instance.post(`ltdCode/redeem/${code}`,{
-            headers:{
-                Authorization:`Bearer ${localStorage.getItem("token")}`
-            },
-        });
+        console.log('token:',token);
+        const response = await instance.post(`ltdCode/redeem/${code}`);
         return response.data
     } catch (error) {
         console.error('Error fetching data from instance:', error);

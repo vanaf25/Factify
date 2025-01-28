@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Form from "../../components/Form/Form";
 import {login} from "../../api/auth";
 import {useNavigate} from "react-router-dom";
+import instance from "../../api/api";
 
 const SignIn = () => {
     let navigate = useNavigate();
@@ -30,6 +31,7 @@ const SignIn = () => {
             const res=await login(data);
             if (res.token){
                 localStorage.setItem("token",res.token);
+                instance.defaults.headers.Authorization = `Bearer ${res.token}`
                 navigate("/");
             }
             if (res.code==="ERR_BAD_REQUEST"){
